@@ -6,6 +6,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotCard;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotCpu;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotFan;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotMotherboard;
 
 @Getter
 public class ContainerBlockPc extends Container  {
@@ -22,6 +26,7 @@ public class ContainerBlockPc extends Container  {
         addSlotToContainer(new SlotMotherboard(tile, slotID++, 20 + 1 * 18, 56 + 1 * 18, this));
         addSlotToContainer(new SlotCard(tile, slotID++, 20 + 39, 32 + 1 * 18, this,2));
         addSlotToContainer(new SlotCard(tile, slotID++, 20 + 60, 32 + 1 * 18, this,3));
+        addSlotToContainer(new SlotFan(tile, slotID++, 80 + 60, 5 + 1 * 18, this));
         //Инвентарь
         for (int i = 0; i < 3; i++)
         {

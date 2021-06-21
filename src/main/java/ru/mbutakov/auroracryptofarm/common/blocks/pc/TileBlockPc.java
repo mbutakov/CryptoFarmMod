@@ -24,7 +24,7 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
 
 	public double coin;
 	
-    private ItemStack[] items = new ItemStack[5];
+    private ItemStack[] items = new ItemStack[6];
     public boolean loaded;
     
     public int getSizeInventory()
@@ -49,8 +49,13 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
 			if(stackCpu != null && stackVidiocard != null && stackMotherboard != null) {
 				MotherboardItem motherboard = (MotherboardItem) stackMotherboard.getItem();
 				CpuItem cpu = (CpuItem) stackCpu.getItem();
-				double cpuX = cpu.getProcessorX();
+				double breakProcent = stackCpu.getItemDamage() / (double)stackCpu.getMaxDamage();
+				breakProcent *= 100;
+				double cpuX = cpu.getCofProcess(stackCpu);
 				double moneyAdd = 0;
+				if(getStackInSlot(5) != null) {
+					getStackInSlot(5).setItemDamage(getStackInSlot(5).getItemDamage() + 1);
+				}
 				if(getStackInSlot(3) != null) {
 					getStackInSlot(3).setItemDamage(getStackInSlot(3).getItemDamage() + 1);
 				}
@@ -62,14 +67,24 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
 					moneyAdd += ((VideoCard)getStackInSlot(3).getItem()).getCoinAdd();
 				}
 				if(getStackInSlot(4) != null) {
-					moneyAdd += ((VideoCard)getStackInSlot(3).getItem()).getCoinAdd();
+					moneyAdd += ((VideoCard)getStackInSlot(4).getItem()).getCoinAdd();
 				}
 				moneyAdd += ((VideoCard)stackVidiocard.getItem()).getCoinAdd();
 				addCoin(moneyAdd * cpuX);
-				this.markDirty();
 			}
-           
         }
+		if(worldObj.getTotalWorldTime() % 100 == 1) {
+			ItemStack stackCpu = getStackInSlot(0);
+			ItemStack stackFan = getStackInSlot(5);
+			if(stackCpu != null) {
+				if(stackFan == null) {
+					stackCpu.setItemDamage(stackCpu.getItemDamage() + 5);
+				}else {
+					stackCpu.setItemDamage(stackCpu.getItemDamage() + 1);
+				}
+			}
+		}
+		
     }
     
     

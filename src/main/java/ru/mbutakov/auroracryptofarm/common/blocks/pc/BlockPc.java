@@ -5,6 +5,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import lombok.Getter;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -22,7 +23,7 @@ import ru.mbutakov.auroracryptofarm.Main;
 import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
 
 @Getter
-public class BlockPc extends Block implements ITileEntityProvider {
+public class BlockPc extends BlockContainer implements ITileEntityProvider {
 
 	private EnumPcTier tier;
 	
@@ -98,16 +99,16 @@ public class BlockPc extends Block implements ITileEntityProvider {
     public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
         int l = MathHelper.floor_double((double)((double)(par5EntityLivingBase.rotationYaw * 4.0f / 360.0f) + 0.5)) & 3;
         if (l == 0) {
-            par1World.setBlockMetadataWithNotify(x, y, z, 5, 2);
-        }
-        if (l == 1) {
-            par1World.setBlockMetadataWithNotify(x, y, z, 2, 2);
-        }
-        if (l == 2) {
             par1World.setBlockMetadataWithNotify(x, y, z, 3, 2);
         }
+        if (l == 1) {
+            par1World.setBlockMetadataWithNotify(x, y, z, 0, 2);
+        }
+        if (l == 2) {
+            par1World.setBlockMetadataWithNotify(x, y, z, 1, 2);
+        }
         if (l == 3) {
-            par1World.setBlockMetadataWithNotify(x, y, z, 4, 2);
+            par1World.setBlockMetadataWithNotify(x, y, z, 2, 2);
         }
 
     }

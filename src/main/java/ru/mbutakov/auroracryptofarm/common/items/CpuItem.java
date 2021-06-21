@@ -39,7 +39,15 @@ public class CpuItem extends Item {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b) {
     	list.add(EnumChatFormatting.WHITE + "Чипсет: " +  chip);
-    	list.add(EnumChatFormatting.WHITE + "Коэффициент производительности: " + Utils.formatNumber(processorX));
+    	double breakProcent = stack.getItemDamage() / (double)stack.getMaxDamage();
+    	list.add(EnumChatFormatting.WHITE + "Сломано " + Utils.formatNumber((breakProcent*100)) + "%");
+    	list.add(EnumChatFormatting.WHITE + "Коэффициент производительности: " + Utils.formatNumber(getCofProcess(stack)));
+    }
+    
+    public double getCofProcess(ItemStack stack) {
+    	double breakProcent = stack.getItemDamage() / (double)stack.getMaxDamage();
+		return processorX-breakProcent;
+    	
     }
 
 }

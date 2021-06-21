@@ -40,6 +40,7 @@ public class MotherboardItem extends Item {
 	
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b) {
+       	list.add(EnumChatFormatting.WHITE + "Форм-фактор: " +  format.toString());
     	list.add(EnumChatFormatting.WHITE + "Подходящий чипсет: " +  chip);
     	list.add(EnumChatFormatting.WHITE + "Кол-во видиокарт: " + countVideocard);
     }

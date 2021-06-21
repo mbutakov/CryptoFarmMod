@@ -84,13 +84,13 @@ public class GuiPc extends GuiContainer{
 				}else {
 					drawTexturedModalRect(xOrigin + 16 + 1 * 21, yOrigin + 49 + 0 * 20, 175, 256, 18, 18);		
 				}
-			if(item.getCountVidiocard() > 1) {
+			if(item.getCountVideocard() > 1) {
 				if(hasItem(3)) {
 					drawTexturedModalRect(xOrigin + 16 + 2 * 21, yOrigin + 49 + 0 * 20, 193, 256, 18, 18);
 				}else {
 					drawTexturedModalRect(xOrigin + 16 + 2 * 21, yOrigin + 49 + 0 * 20, 175, 256, 18, 18);		
 				}
-			if(item.getCountVidiocard() > 2)
+			if(item.getCountVideocard() > 2)
 				if(hasItem(4)) {
 					drawTexturedModalRect(xOrigin + 16 + 3 * 21, yOrigin + 49 + 0 * 20, 193, 256, 18, 18);
 				}else {

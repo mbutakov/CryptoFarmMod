@@ -21,10 +21,10 @@ public class SlotCard extends Slot {
 			return false;
 		}
 		MotherboardItem motherboard = (MotherboardItem) container.getSlot(2).getStack().getItem();
-		if(motherboard.getCountVidiocard() == 1 && VidiocardSlot > 1) {
+		if(motherboard.getCountVideocard() == 1 && VidiocardSlot > 1) {
 			return false;
 		}
-		if(motherboard.getCountVidiocard() == 2 && VidiocardSlot > 2) {
+		if(motherboard.getCountVideocard() == 2 && VidiocardSlot > 2) {
 			return false;
 		}
 		return stack == null || stack.getItem() instanceof VideoCard;

@@ -2,15 +2,23 @@ package ru.mbutakov.auroracryptofarm.client.render;
 
 import org.lwjgl.opengl.GL11;
 
+import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 import ru.mbutakov.auroracryptofarm.client.mbResourceLocation;
+import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
 
+@Getter
 public class RenderItemBlockPc implements IItemRenderer {
 
+	private EnumPcTier tier;
+	
+	public RenderItemBlockPc(EnumPcTier tier) {
+		this.tier = tier;
+	}
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		// TODO Auto-generated method stub

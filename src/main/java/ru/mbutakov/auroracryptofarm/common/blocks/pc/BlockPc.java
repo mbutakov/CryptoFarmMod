@@ -3,6 +3,7 @@ package ru.mbutakov.auroracryptofarm.common.blocks.pc;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -18,14 +19,19 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import ru.mbutakov.auroracryptofarm.Main;
+import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
 
+@Getter
 public class BlockPc extends Block implements ITileEntityProvider {
 
-	public BlockPc(String name, String nameTexture, CreativeTabs tab) {
+	private EnumPcTier tier;
+	
+	public BlockPc(String name, String nameTexture, CreativeTabs tab,EnumPcTier tier) {
 		super(Material.iron);
 		setCreativeTab(tab);
 		setBlockTextureName("mbswordmod:" + nameTexture);
 		setBlockName(name);
+		this.tier = tier;
 		GameRegistry.registerBlock(this, name);
 		if (FMLClientHandler.instance().getSide().isClient()) {
 			LanguageRegistry.addName(this, name);

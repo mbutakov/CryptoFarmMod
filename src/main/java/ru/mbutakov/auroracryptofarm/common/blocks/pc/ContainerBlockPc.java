@@ -10,6 +10,7 @@ import ru.mbutakov.auroracryptofarm.common.slots.SlotCard;
 import ru.mbutakov.auroracryptofarm.common.slots.SlotCpu;
 import ru.mbutakov.auroracryptofarm.common.slots.SlotFan;
 import ru.mbutakov.auroracryptofarm.common.slots.SlotMotherboard;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotUsbFlash;
 
 @Getter
 public class ContainerBlockPc extends Container  {
@@ -21,12 +22,13 @@ public class ContainerBlockPc extends Container  {
     public ContainerBlockPc( InventoryPlayer inventoryplayer, TileBlockPc tile) {
         this.tile = tile;
         block = (BlockPc) tile.getWorldObj().getBlock(tile.xCoord, tile.yCoord, tile.zCoord);
-        addSlotToContainer(new SlotCpu(tile, slotID++, 20 + 1 * 18, 5 + 1 * 18, this));
-        addSlotToContainer(new SlotCard(tile, slotID++, 20 + 1 * 18, 32 + 1 * 18, this,1));
-        addSlotToContainer(new SlotMotherboard(tile, slotID++, 20 + 1 * 18, 56 + 1 * 18, this));
-        addSlotToContainer(new SlotCard(tile, slotID++, 20 + 39, 32 + 1 * 18, this,2));
-        addSlotToContainer(new SlotCard(tile, slotID++, 20 + 60, 32 + 1 * 18, this,3));
-        addSlotToContainer(new SlotFan(tile, slotID++, 80 + 60, 5 + 1 * 18, this));
+        addSlotToContainer(new SlotCpu(tile, slotID++, 13, 6 + 1 * 18, this));
+        addSlotToContainer(new SlotCard(tile, slotID++, 13, 32 + 1 * 18, this,1));
+        addSlotToContainer(new SlotMotherboard(tile, slotID++, 13, 77, this));
+        addSlotToContainer(new SlotCard(tile, slotID++, 37, 32 + 1 * 18, this,2));
+        addSlotToContainer(new SlotCard(tile, slotID++, 61, 32 + 1 * 18, this,3));
+        addSlotToContainer(new SlotFan(tile, slotID++, 110, 5 + 1 * 18, this));
+        addSlotToContainer(new SlotUsbFlash(tile, slotID++, 110, 32 + 1 * 18, this));
         //Инвентарь
         for (int i = 0; i < 3; i++)
         {
@@ -41,16 +43,18 @@ public class ContainerBlockPc extends Container  {
             addSlotToContainer(new Slot(inventoryplayer, i, 7 + i * 18, 172));
         }
     }
-        
+    
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotRaw)
     {
+    	System.out.println("asdasd");
         return null;
     }
 
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
     }
+    
     
     @Override
     public boolean canInteractWith(EntityPlayer player)

@@ -11,8 +11,11 @@ public class SlotCard extends Slot {
 
 	private ContainerBlockPc container;
 	private int VidiocardSlot;
+    private int slotIndex;
+    
 	public SlotCard(IInventory inventory, int i, int x, int y, ContainerBlockPc s,int vidiocardslot) {
 		super(inventory, i, x, y);
+		this.slotIndex = i;
 		this.container = s;
 		this.VidiocardSlot = vidiocardslot;
 	}
@@ -30,4 +33,5 @@ public class SlotCard extends Slot {
 		}
 		return stack == null || stack.getItem() instanceof VideoCard;
 	}
+    
 }

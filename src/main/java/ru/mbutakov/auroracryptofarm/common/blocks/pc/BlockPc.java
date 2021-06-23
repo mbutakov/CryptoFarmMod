@@ -12,6 +12,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -30,13 +31,10 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 	public BlockPc(String name, String nameTexture, CreativeTabs tab,EnumPcTier tier) {
 		super(Material.iron);
 		setCreativeTab(tab);
-		setBlockTextureName("mbswordmod:" + nameTexture);
 		setBlockName(name);
 		this.tier = tier;
 		GameRegistry.registerBlock(this, name);
-		if (FMLClientHandler.instance().getSide().isClient()) {
-			LanguageRegistry.addName(this, name);
-		}
+		Main.proxy.registerName(Item.getItemFromBlock(this), name);
 
 	}
 

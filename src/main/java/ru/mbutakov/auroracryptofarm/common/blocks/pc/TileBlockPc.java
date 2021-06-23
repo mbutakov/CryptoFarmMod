@@ -18,13 +18,12 @@ import ru.mbutakov.auroracryptofarm.client.EnergyTileLoadEvent;
 import ru.mbutakov.auroracryptofarm.client.IEnergyTile;
 import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
+import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
 import ru.mbutakov.auroracryptofarm.common.items.VideoCard;
 
 public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
 
-	public double coin;
-	
-    private ItemStack[] items = new ItemStack[6];
+    private ItemStack[] items = new ItemStack[7];
     public boolean loaded;
     
     public int getSizeInventory()
@@ -33,7 +32,6 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
     }
     
     public TileBlockPc() {
-        this.coin = 0.0f;
         this.loaded = false;
     }
     
@@ -46,11 +44,10 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
 			ItemStack stackCpu = getStackInSlot(0);
 			ItemStack stackVidiocard = getStackInSlot(1);
 			ItemStack stackMotherboard = getStackInSlot(2);
-			if(stackCpu != null && stackVidiocard != null && stackMotherboard != null) {
+			ItemStack stackUsbflash = getStackInSlot(6);
+			if(stackCpu != null && stackVidiocard != null && stackMotherboard != null && stackUsbflash != null) {
 				MotherboardItem motherboard = (MotherboardItem) stackMotherboard.getItem();
 				CpuItem cpu = (CpuItem) stackCpu.getItem();
-				double breakProcent = stackCpu.getItemDamage() / (double)stackCpu.getMaxDamage();
-				breakProcent *= 100;
 				double cpuX = cpu.getCofProcess(stackCpu);
 				double moneyAdd = 0;
 				if(getStackInSlot(5) != null) {
@@ -70,7 +67,10 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
 					moneyAdd += ((VideoCard)getStackInSlot(4).getItem()).getCoinAdd();
 				}
 				moneyAdd += ((VideoCard)stackVidiocard.getItem()).getCoinAdd();
-				addCoin(moneyAdd * cpuX);
+				UsbflashItem flash = (UsbflashItem) stackUsbflash.getItem();
+				flash.addCoin(stackUsbflash, moneyAdd * cpuX);
+			}else {
+				return;
 			}
         }
 		if(worldObj.getTotalWorldTime() % 100 == 1) {
@@ -87,67 +87,6 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
 		
     }
     
-    
-    public void validate() {
-        super.validate();
-        this.onLoaded();
-    }
-    
-    @Override
-    public Packet getDescriptionPacket() {
- 
-       NBTTagCompound tagCompound = new NBTTagCompound();
- 
-       this.writeToNBT(tagCompound);//Можно записать всё, или отдельную информацию.
- 
-       return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, -1, tagCompound);
-    }
-   
-    @Override
-    public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
-        NBTTagCompound tagCompound = packet.func_148857_g();
-        this.readFromNBT(tagCompound);
-    }
-    
-    
-    
-    public void onLoaded() {
-        if (!this.worldObj.isRemote) {
-            MinecraftForge.EVENT_BUS.post((Event)new EnergyTileLoadEvent((IEnergyTile)this));
-        }
-        this.loaded = true;
-    }
-    
-    public void invalidate() {
-        if (this.loaded) {
-            this.onUnloaded();
-        }
-        super.invalidate();
-    }
-    
-    public void onUnloaded() {
-        if (!this.worldObj.isRemote) {
-          // MinecraftForge.EVENT_BUS.post((Event)new EnergyTileUnloadEvent((IEnergyTile)this));
-        }
-        this.loaded = false;
-    }
-   
-    
-    public double addCoin(final double amount) {
-        this.coin += amount;
-        this.markDirty();
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        return getCoin();
-    }
-    public double setCoin(final double amount) {
-        this.coin = amount;
-        this.markDirty();
-        return getCoin();
-    }
-    public double getCoin() {
-        return this.coin;
-    }
-
     public ItemStack getStackInSlot(int slot)
     {
         return items[slot];
@@ -219,7 +158,6 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
     @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
-        this.coin = nbt.getDouble("coin");
         super.readFromNBT(nbt);
         NBTTagList list = nbt.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         items = new ItemStack[getSizeInventory()];
@@ -235,7 +173,6 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
     @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
-        nbt.setDouble("coin", getCoin());
         super.writeToNBT(nbt);
         NBTTagList list = new NBTTagList();
 

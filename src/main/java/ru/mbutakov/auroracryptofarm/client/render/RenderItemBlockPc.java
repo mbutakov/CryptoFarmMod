@@ -33,23 +33,28 @@ public class RenderItemBlockPc implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		// TODO Auto-generated method stub
-		GL11.glPushMatrix();
-		GL11.glScalef(0.1f, 0.1f, 0.1f);
-		if(type == ItemRenderType.INVENTORY) {
-			GL11.glTranslatef(3f, -2f, 3f);
-		}
-		if(type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
-			GL11.glTranslatef(0.3f, 0.3f, 0.3f);
-		}
-		if(type == ItemRenderType.EQUIPPED) {
-			GL11.glScalef(2f, 2f, 2f);
-			GL11.glTranslatef(1.5f, 0.7f, 2f);
-			GL11.glRotatef(230, 0, 1, 0);
-		}
-		
-		Minecraft.getMinecraft().renderEngine.bindTexture(mbResourceLocation.blockPcTex);
-		mbResourceLocation.blockPc.renderAll();
-		GL11.glPopMatrix();
+			// TODO Auto-generated method stub
+			GL11.glPushMatrix();
+			GL11.glScalef(0.1f, 0.1f, 0.1f);
+			if (type == ItemRenderType.INVENTORY) {
+				GL11.glTranslatef(3f, -2f, 3f);
+			}
+			if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
+				GL11.glTranslatef(0.3f, 0.3f, 0.3f);
+			}
+			if (type == ItemRenderType.EQUIPPED) {
+				GL11.glScalef(2f, 2f, 2f);
+				GL11.glTranslatef(1.5f, 0.7f, 2f);
+				GL11.glRotatef(230, 0, 1, 0);
+			}
+			if (tier == EnumPcTier.TOP) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(mbResourceLocation.blockPcTexTop);
+			}else if(tier == EnumPcTier.MIDDLE) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(mbResourceLocation.blockPcTex);
+			}else {
+				Minecraft.getMinecraft().renderEngine.bindTexture(mbResourceLocation.blockPcTexLow);
+			}
+			mbResourceLocation.blockPc.renderAll();
+			GL11.glPopMatrix();
 	}
 }

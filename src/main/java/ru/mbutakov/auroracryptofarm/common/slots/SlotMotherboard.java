@@ -25,6 +25,10 @@ public class SlotMotherboard extends Slot {
 		if(stackSlotCpu != null) {
 			return false;
 		}
+		if(stack.getItem() instanceof MotherboardItem) {
+		}else {
+			return false;
+		}
 		EnumFormatMotherboard formatAccess[] = EnumPcTier.formatMotherboard(((BlockPc)container.getBlock()).getTier());
 		EnumFormatMotherboard formatMotherboard = ((MotherboardItem)stack.getItem()).getFormat();
 		boolean acces = false;

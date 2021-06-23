@@ -1,11 +1,19 @@
 package ru.mbutakov.auroracryptofarm.common.items;
 
-import cpw.mods.fml.client.FMLClientHandler;
+import java.util.List;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import ru.mbutakov.auroracryptofarm.Main;
+import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
 
 public class FanItem extends Item{
 
@@ -17,9 +25,14 @@ public class FanItem extends Item{
 		setMaxStackSize(1);
 		setMaxDamage(maxDamage);
 		GameRegistry.registerItem(this,name);
-		if(FMLClientHandler.instance().getSide().isClient()) {
-			LanguageRegistry.addName(this, name);
-		}
+		Main.proxy.registerName(this, name);
 	}
+	
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b) {
+    	if(stack.getItemDamage() > 0) {
+    		list.add(EnumChatFormatting.WHITE + "Осталось: " + (stack.getMaxDamage() - stack.getItemDamage()) + " секунд");
+    	}
+    }
 	
 }

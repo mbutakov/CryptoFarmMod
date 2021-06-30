@@ -1,5 +1,6 @@
 package ru.mbutakov.auroracryptofarm.common.slots;
 
+import lombok.Setter;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -8,6 +9,7 @@ import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
 import ru.mbutakov.auroracryptofarm.common.items.VideoCard;
 
+@Setter
 public class SlotCpu extends Slot {
 
 	private ContainerBlockPc container;
@@ -32,4 +34,6 @@ public class SlotCpu extends Slot {
 		}
 		return true;
 	}
+	
+
 }

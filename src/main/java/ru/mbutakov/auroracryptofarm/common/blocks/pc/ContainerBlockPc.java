@@ -4,8 +4,10 @@ import lombok.Getter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
 import ru.mbutakov.auroracryptofarm.common.slots.SlotCard;
 import ru.mbutakov.auroracryptofarm.common.slots.SlotCpu;
 import ru.mbutakov.auroracryptofarm.common.slots.SlotFan;
@@ -22,13 +24,13 @@ public class ContainerBlockPc extends Container  {
     public ContainerBlockPc( InventoryPlayer inventoryplayer, TileBlockPc tile) {
         this.tile = tile;
         block = (BlockPc) tile.getWorldObj().getBlock(tile.xCoord, tile.yCoord, tile.zCoord);
-        addSlotToContainer(new SlotCpu(tile, slotID++, 13, 6 + 1 * 18, this));
-        addSlotToContainer(new SlotCard(tile, slotID++, 13, 32 + 1 * 18, this,1));
-        addSlotToContainer(new SlotMotherboard(tile, slotID++, 13, 77, this));
-        addSlotToContainer(new SlotCard(tile, slotID++, 37, 32 + 1 * 18, this,2));
-        addSlotToContainer(new SlotCard(tile, slotID++, 61, 32 + 1 * 18, this,3));
-        addSlotToContainer(new SlotFan(tile, slotID++, 110, 5 + 1 * 18, this));
-        addSlotToContainer(new SlotUsbFlash(tile, slotID++, 110, 32 + 1 * 18, this));
+        addSlotToContainer(new SlotCpu(tile, slotID++, 6, 41, this));
+        addSlotToContainer(new SlotCard(tile, slotID++, 151, 41, this,1));
+        addSlotToContainer(new SlotMotherboard(tile, slotID++, 79, 86, this));
+        addSlotToContainer(new SlotCard(tile, slotID++, 151, 63, this,2));
+        addSlotToContainer(new SlotCard(tile, slotID++, 151, 86, this,3));
+        addSlotToContainer(new SlotFan(tile, slotID++, 6, 63, this));
+        addSlotToContainer(new SlotUsbFlash(tile, slotID++, 6, 86, this));
         //Инвентарь
         for (int i = 0; i < 3; i++)
         {
@@ -43,11 +45,61 @@ public class ContainerBlockPc extends Container  {
             addSlotToContainer(new Slot(inventoryplayer, i, 7 + i * 18, 172));
         }
     }
-    
+
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotRaw)
     {
-    	System.out.println("asdasd");
+    	try {
+    		 ItemStack itemstack = null;
+    	        Slot slot = (Slot)this.inventorySlots.get(slotRaw);
+    	        System.out.println(slotRaw);
+    	        if (slot != null && slot.getHasStack())
+    	        {
+    	            ItemStack itemstack1 = slot.getStack();
+    	            itemstack = itemstack1.copy();
+    	            
+				if (slotRaw <= 6) {
+					if (!this.mergeItemStack(itemstack1, 7, this.inventorySlots.size(), true)) {
+						return null;
+					}
+    	            }
+    	            
+    	            if (itemstack1.stackSize == 0)
+    	            {
+    	                slot.putStack((ItemStack)null);
+    	            }
+    	            else
+    	            {
+    	                slot.onSlotChanged();
+    	            }
+//
+//    	            if (slotRaw < 4 * 9)
+//    	            {
+//    	                if (!this.mergeItemStack(itemstack1, 4 * 9, this.inventorySlots.size(), true))
+//    	                {
+//    	                    return null;
+//    	                }
+//    	            }
+//    	            else if (!this.mergeItemStack(itemstack1, 0, 4 * 9, false))
+//    	            {
+//    	                return null;
+//    	            }
+//
+//    	            if (itemstack1.stackSize == 0)
+//    	            {
+//    	                slot.putStack((ItemStack)null);
+//    	            }
+//    	            else
+//    	            {
+//    	                slot.onSlotChanged();
+//    	            }
+    	        }
+    	        return null;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+
         return null;
     }
 

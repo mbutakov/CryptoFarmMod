@@ -1,6 +1,5 @@
 package ru.mbutakov.auroracryptofarm.common.blocks.pc;
 
-import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -8,20 +7,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
-import ru.mbutakov.auroracryptofarm.client.EnergyTileLoadEvent;
-import ru.mbutakov.auroracryptofarm.client.IEnergyTile;
 import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
 import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
 import ru.mbutakov.auroracryptofarm.common.items.VideoCard;
 
-public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
+public class TileBlockPc extends TileEntity implements IInventory {
 
     private ItemStack[] items = new ItemStack[7];
     public boolean loaded;
@@ -36,54 +29,58 @@ public class TileBlockPc extends TileEntity implements IInventory, IEnergyTile {
     }
     
     public void updateEntity() {
+    	try {
+    		  if(worldObj.getTotalWorldTime() % 20 == 1) {
+    				super.updateEntity();
+    				ItemStack stackCpu = getStackInSlot(0);
+    				ItemStack stackVidiocard = getStackInSlot(1);
+    				ItemStack stackMotherboard = getStackInSlot(2);
+    				ItemStack stackUsbflash = getStackInSlot(6);
+    				if(stackCpu != null && stackVidiocard != null && stackMotherboard != null && stackUsbflash != null) {
+    					CpuItem cpu = (CpuItem) stackCpu.getItem();
+    					double cpuX = cpu.getCofProcess(stackCpu);
+    					double moneyAdd = 0;
+    					if(getStackInSlot(5) != null) {
+    						getStackInSlot(5).setItemDamage(getStackInSlot(5).getItemDamage() + 1);
+    					}
+    					if(getStackInSlot(3) != null) {
+    						getStackInSlot(3).setItemDamage(getStackInSlot(3).getItemDamage() + 1);
+    					}
+    					if(getStackInSlot(4) != null) {
+    						getStackInSlot(4).setItemDamage(getStackInSlot(4).getItemDamage() + 1);
+    					}
+    					stackVidiocard.setItemDamage(stackVidiocard.getItemDamage() + 1);
+    					if(getStackInSlot(3) != null) {
+    						moneyAdd += ((VideoCard)getStackInSlot(3).getItem()).getCoinAdd();
+    					}
+    					if(getStackInSlot(4) != null) {
+    						moneyAdd += ((VideoCard)getStackInSlot(4).getItem()).getCoinAdd();
+    					}
+    					moneyAdd += ((VideoCard)stackVidiocard.getItem()).getCoinAdd();
+    					UsbflashItem flash = (UsbflashItem) stackUsbflash.getItem();
+    					flash.addCoin(stackUsbflash, moneyAdd * cpuX);
+    				}else {
+    					return;
+    				}
+    	        }
+    			if(worldObj.getTotalWorldTime() % 100 == 1) {
+    				ItemStack stackCpu = getStackInSlot(0);
+    				ItemStack stackFan = getStackInSlot(5);
+    				if(stackCpu != null) {
+    					if(stackFan == null) {
+    						stackCpu.setItemDamage(stackCpu.getItemDamage() + 5);
+    					}else {
+    						stackCpu.setItemDamage(stackCpu.getItemDamage() + 1);
+    					}
+    				}
+    			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
         if (this.worldObj.isRemote) {
             return;
         }
-        if(worldObj.getTotalWorldTime() % 20 == 1) {
-			super.updateEntity();
-			ItemStack stackCpu = getStackInSlot(0);
-			ItemStack stackVidiocard = getStackInSlot(1);
-			ItemStack stackMotherboard = getStackInSlot(2);
-			ItemStack stackUsbflash = getStackInSlot(6);
-			if(stackCpu != null && stackVidiocard != null && stackMotherboard != null && stackUsbflash != null) {
-				MotherboardItem motherboard = (MotherboardItem) stackMotherboard.getItem();
-				CpuItem cpu = (CpuItem) stackCpu.getItem();
-				double cpuX = cpu.getCofProcess(stackCpu);
-				double moneyAdd = 0;
-				if(getStackInSlot(5) != null) {
-					getStackInSlot(5).setItemDamage(getStackInSlot(5).getItemDamage() + 1);
-				}
-				if(getStackInSlot(3) != null) {
-					getStackInSlot(3).setItemDamage(getStackInSlot(3).getItemDamage() + 1);
-				}
-				if(getStackInSlot(4) != null) {
-					getStackInSlot(4).setItemDamage(getStackInSlot(4).getItemDamage() + 1);
-				}
-				stackVidiocard.setItemDamage(stackVidiocard.getItemDamage() + 1);
-				if(getStackInSlot(3) != null) {
-					moneyAdd += ((VideoCard)getStackInSlot(3).getItem()).getCoinAdd();
-				}
-				if(getStackInSlot(4) != null) {
-					moneyAdd += ((VideoCard)getStackInSlot(4).getItem()).getCoinAdd();
-				}
-				moneyAdd += ((VideoCard)stackVidiocard.getItem()).getCoinAdd();
-				UsbflashItem flash = (UsbflashItem) stackUsbflash.getItem();
-				flash.addCoin(stackUsbflash, moneyAdd * cpuX);
-			}else {
-				return;
-			}
-        }
-		if(worldObj.getTotalWorldTime() % 100 == 1) {
-			ItemStack stackCpu = getStackInSlot(0);
-			ItemStack stackFan = getStackInSlot(5);
-			if(stackCpu != null) {
-				if(stackFan == null) {
-					stackCpu.setItemDamage(stackCpu.getItemDamage() + 5);
-				}else {
-					stackCpu.setItemDamage(stackCpu.getItemDamage() + 1);
-				}
-			}
-		}
+      
 		
     }
     

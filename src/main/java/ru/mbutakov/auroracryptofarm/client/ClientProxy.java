@@ -15,6 +15,7 @@ import ru.mbutakov.auroracryptofarm.common.CommonProxy;
 import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
 import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
+import ru.mbutakov.auroracryptofarm.utils.FontUtils;
 
 public class ClientProxy extends CommonProxy {
 
@@ -30,6 +31,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlocksRegister.BlockPcTop), new RenderItemBlockPc(EnumPcTier.TOP));
 		MinecraftForgeClient.registerItemRenderer(ItemsRegister.item_card_100z, new RenderItemVideocard());
 		MinecraftForgeClient.registerItemRenderer(ItemsRegister.item_usbflash, new RenderItemUsbflash());
+		FontUtils.registerFont();
 
 	}
 	@Override

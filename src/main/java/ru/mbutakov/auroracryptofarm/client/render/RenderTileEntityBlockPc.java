@@ -48,14 +48,17 @@ public class RenderTileEntityBlockPc extends TileEntitySpecialRenderer
 	        this.bindTexture(mbResourceLocation.blockPcTex);
 	        mbResourceLocation.blockPc.renderAll();
 	        GL11.glPopMatrix();
-	        if(tile.getStackInSlot(1) != null) {
+	        if(tile.getStackInSlot(6) != null) {
+	        	 GL11.glPushMatrix();
 	            RenderHelper.disableStandardItemLighting();
-	            this.bindTexture(mbResourceLocation.gt710tex);
-	            GL11.glTranslatef((float)x + 0.65f, (float)y + 0.3f, (float)z + 0.35f);
+	            this.bindTexture(mbResourceLocation.usbflash_tex);
+	            GL11.glTranslatef((float)x + 0.46f, (float)y + 0.95f, (float)z + 0.64f);
 	            GL11.glRotatef(180 - rotation, 0.0f, 1.0f, 0.0f);
-	            GL11.glRotatef(180, 1.0f, 0.0f, 0.0f);
 	            GL11.glScalef(0.025f, 0.025f, 0.025f);
-	            mbResourceLocation.gt710.renderAll();
+	            GL11.glRotatef(90, 0.0f, 0.0f, 1.0f);
+	            GL11.glRotatef(90, 1.0f, 0.0f, 0.0f);
+	            mbResourceLocation.usbflash.renderAll();
+	            GL11.glPopMatrix();
 	        }
         }else if (bp.getTier() == EnumPcTier.LOW) {
         	GL11.glPushMatrix();

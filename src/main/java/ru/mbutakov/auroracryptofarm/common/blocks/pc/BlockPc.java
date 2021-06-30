@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import ru.mbutakov.auroracryptofarm.Main;
 import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
@@ -81,6 +82,17 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 		}
 		super.breakBlock(world, x, y, z, blockOld, metadataOld);
 	}
+
+	public void setBlockBoundsBasedOnState(IBlockAccess var1, int int2, int int3, int int4) {
+		int angel = var1.getBlockMetadata(int2, int3, int4);
+		float x = 0.31f;
+		if (angel != 2 && angel != 0) {
+			this.setBlockBounds(0F + x, 0.0F, 0.0F, 1F - x, 1.0F, 1F);
+		}else {
+			this.setBlockBounds(0F, 0.0F, 0.0F + x, 1F, 1.0F, 1F - x);
+		}
+	}
+	 
 	
 	
 	@Override

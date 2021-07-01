@@ -1,5 +1,7 @@
 package ru.mbutakov.auroracryptofarm.client.gui;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +31,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.mbutakov.auroracryptofarm.Main;
+import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.ContainerBlockPc;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
@@ -284,13 +287,13 @@ public class GuiPc extends GuiScreen{
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1, 1, 1, 1f);
-	    drawSlot(getRightElementPosX(494.0D),getRightElementPosY(231.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(0));
-	    drawSlot(getRightElementPosX(494.0D),getRightElementPosY(318.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(5));
-	    drawSlot(getRightElementPosX(494.0D),getRightElementPosY(408.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(6));
-	    drawSlot(getRightElementPosX(1047.0D),getRightElementPosY(231.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(1));
-	    drawSlot(getRightElementPosX(1047.0D),getRightElementPosY(318.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(3));
-	    drawSlot(getRightElementPosX(1047.0D),getRightElementPosY(408.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(4));
-	    drawSlot(getRightElementPosX(770.0D),getRightElementPosY(408.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(2));
+	    drawSlot(getRightElementPosX(493.0D),getRightElementPosY(232.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(0));
+	    drawSlot(getRightElementPosX(493.0D),getRightElementPosY(319.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(5));
+	    drawSlot(getRightElementPosX(493.0D),getRightElementPosY(409.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(6));
+	    drawSlot(getRightElementPosX(1047.0D),getRightElementPosY(232.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(1));
+	    drawSlot(getRightElementPosX(1047.0D),getRightElementPosY(319.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(3));
+	    drawSlot(getRightElementPosX(1047.0D),getRightElementPosY(409.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(4));
+	    drawSlot(getRightElementPosX(770.0D),getRightElementPosY(409.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(2));
 	    drawCustomString("Память", 500, 487, FontUtils.FontMonsterrat, 13,0x697C69);
 	    drawCustomString("Охлаждение", 490, 399, FontUtils.FontMonsterrat, 13,0x697C69);
 	    drawCustomString("Процессор", 490, 309, FontUtils.FontMonsterrat, 13,0x697C69);
@@ -348,9 +351,7 @@ public class GuiPc extends GuiScreen{
 		this.zLevel = 100.0F;
 		itemRender.zLevel = 0.0F;
 		itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, 0, 0);
-		if(itemStack.stackSize != 1) {
-			itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, 0, 0,itemStack.stackSize + "");
-		}
+		itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, 0, 0,itemStack.stackSize + "");
 		
 		itemRender.zLevel = 0.0F;
 		GL11.glPopMatrix();

@@ -1,5 +1,11 @@
 package ru.mbutakov.auroracryptofarm;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -16,6 +22,7 @@ import ru.mbutakov.auroracryptofarm.common.CommonProxy;
 import ru.mbutakov.auroracryptofarm.common.GuiHandler;
 import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
+import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
 
 @Mod(name = Main.MODID, modid = Main.MODID, version = "1.0")
 
@@ -32,12 +39,19 @@ public class Main {
 	@SidedProxy(clientSide = "ru.mbutakov.auroracryptofarm.client.ClientProxy", serverSide = "ru.mbutakov.auroracryptofarm.common.CommonProxy")
 	public static CommonProxy proxy;
 	public static final String MODID = "cryptofarmaurora";
+	public static File auroraDir;
 
 	@Mod.Instance(MODID)
 	public static Main INSTANCE;
-
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
+		auroraDir = new File(e.getModConfigurationDirectory().getParentFile(), "/" + Main.MODID + "/");
+	      if(!auroraDir.exists()) {
+	         auroraDir.mkdirs();
+	         auroraDir.mkdir();
+	      }
+	      ItemsRegister.syncDir();
+		      
 		proxy.preInit();
 		ItemsRegister.registerItems();
 		BlocksRegister.registerBlocks();
@@ -45,7 +59,7 @@ public class Main {
 		GameRegistry.registerTileEntity(TileBlockPc.class, "TileBlockPc");
 
 	}
-
+	
 	@EventHandler
 	public void Init(FMLInitializationEvent e) {
 		proxy.init();

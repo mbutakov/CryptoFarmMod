@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.Constants;
 import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
 import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
-import ru.mbutakov.auroracryptofarm.common.items.VideoCard;
+import ru.mbutakov.auroracryptofarm.common.items.GpuItem;
 
 public class TileBlockPc extends TileEntity implements IInventory {
 
@@ -51,12 +51,12 @@ public class TileBlockPc extends TileEntity implements IInventory {
     					}
     					stackVidiocard.setItemDamage(stackVidiocard.getItemDamage() + 1);
     					if(getStackInSlot(3) != null) {
-    						moneyAdd += ((VideoCard)getStackInSlot(3).getItem()).getCoinAdd();
+    						moneyAdd += ((GpuItem)getStackInSlot(3).getItem()).getCoinAdd();
     					}
     					if(getStackInSlot(4) != null) {
-    						moneyAdd += ((VideoCard)getStackInSlot(4).getItem()).getCoinAdd();
+    						moneyAdd += ((GpuItem)getStackInSlot(4).getItem()).getCoinAdd();
     					}
-    					moneyAdd += ((VideoCard)stackVidiocard.getItem()).getCoinAdd();
+    					moneyAdd += ((GpuItem)stackVidiocard.getItem()).getCoinAdd();
     					UsbflashItem flash = (UsbflashItem) stackUsbflash.getItem();
     					flash.addCoin(stackUsbflash, moneyAdd * cpuX);
     				}else {

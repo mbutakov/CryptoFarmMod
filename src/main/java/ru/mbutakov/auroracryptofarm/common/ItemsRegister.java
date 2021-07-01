@@ -1,5 +1,13 @@
 package ru.mbutakov.auroracryptofarm.common;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.newdawn.slick.tests.xml.Inventory;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -10,68 +18,120 @@ import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
 import ru.mbutakov.auroracryptofarm.common.items.FanItem;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
 import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
-import ru.mbutakov.auroracryptofarm.common.items.VideoCard;
+import ru.mbutakov.auroracryptofarm.common.items.GpuItem;
 import ru.mbutakov.auroracryptofarm.utils.EnumFormatMotherboard;
+import ru.mbutakov.auroracryptofarm.utils.EnumItemsPc;
 
 public class ItemsRegister {
-
-	//видиокарты
-	public static Item item_card_100z,item_card_150m,item_card_160mx,item_card_200g,item_card_1000x,item_card_titan;
-	//процессор
-	public static Item item_cpu_1gx,item_cpu_2gx,item_cpu_3gx,item_cpu_1z,item_cpu_2z,item_cpu_3z,item_cpu_titan;
-	//материнка
-	public static Item 
-	item_motherboard_x100,
-	item_motherboard_x200,
-	item_motherboard_x300,
-	item_motherboard_m100,
-	item_motherboard_m200,
-	item_motherboard_m300,
-	item_motherboard_s100,
-	item_motherboard_s200,
-	item_motherboard_s300;
-	//вентиляторы
-	public static Item 
-	item_fan_100,
-	item_fan_500,
-	item_fan_1000;
 	//флешка
 	public static Item
 	item_usbflash;
 	
+	public static ArrayList<Item> listItems = new ArrayList<>();
+	
 	
 	public static void registerItems() {
-		item_card_100z = new VideoCard("Aurora 100z", "card100z", Main.cryptoTab,0.1,86400);
-		item_card_150m = new VideoCard("Aurora 150m", "card150m", Main.cryptoTab,0.12,86400);
-		item_card_160mx = new VideoCard("Aurora 160mx", "card160mx", Main.cryptoTab,0.15,86400);
-		item_card_200g = new VideoCard("Aurora 200g", "card200g", Main.cryptoTab,0.3,86400);
-		item_card_1000x = new VideoCard("Aurora 1000x", "card1000x", Main.cryptoTab,0.5,86400);
-		item_card_titan = new VideoCard("Aurora TITAN", "cardtitan", Main.cryptoTab,1,86400);
-		item_cpu_1gx = new CpuItem("Aurora Core 1gx","core1gx",Main.cryptoTab,0.1f,300,1000);
-		item_cpu_2gx = new CpuItem("Aurora Core 2gx","core1gx",Main.cryptoTab,0.5f,300,1000);
-		item_cpu_3gx = new CpuItem("Aurora Core 3gx","core1gx",Main.cryptoTab,1f,300,1000);
-		item_cpu_1z = new CpuItem("Aurora Core 1z","core10z",Main.cryptoTab,0.2f,1500,1000);
-		item_cpu_2z = new CpuItem("Aurora Core 2z","core10z",Main.cryptoTab,0.6f,1500,1000);
-		item_cpu_3z = new CpuItem("Aurora Core 3z","core10z",Main.cryptoTab,1f,1500,1000);
-		item_cpu_titan = new CpuItem("Aurora Core Titan","coretitan",Main.cryptoTab,1f,2000,1000);
-		item_motherboard_x100 = new MotherboardItem("Aurora Motherboard x100","motherboardx299",Main.cryptoTab,2000,1,EnumFormatMotherboard.StandartATX);
-		item_motherboard_x200 = new MotherboardItem("Aurora Motherboard x200","motherboardx299",Main.cryptoTab,2000,2,EnumFormatMotherboard.StandartATX);
-		item_motherboard_x300 = new MotherboardItem("Aurora Motherboard x300","motherboardx299",Main.cryptoTab,2000,3,EnumFormatMotherboard.StandartATX);
-		item_motherboard_m100 = new MotherboardItem("Aurora Motherboard m100","motherboardb460",Main.cryptoTab,1500,1,EnumFormatMotherboard.MiniITX);
-		item_motherboard_m200 = new MotherboardItem("Aurora Motherboard m200","motherboardb460",Main.cryptoTab,1500,2,EnumFormatMotherboard.MiniITX);
-		item_motherboard_m300 = new MotherboardItem("Aurora Motherboard m300","motherboardb460",Main.cryptoTab,1500,3,EnumFormatMotherboard.MiniITX);
-		item_motherboard_s100 = new MotherboardItem("Aurora Motherboard s100","motherboardz10",Main.cryptoTab,300,1,EnumFormatMotherboard.MicroATX);
-		item_motherboard_s200 = new MotherboardItem("Aurora Motherboard s200","motherboardz10",Main.cryptoTab,300,2,EnumFormatMotherboard.MicroATX);
-		item_motherboard_s300 = new MotherboardItem("Aurora Motherboard s300","motherboardz10",Main.cryptoTab,300,3,EnumFormatMotherboard.MicroATX);
-		item_fan_100 = new FanItem("Cooler 100", "fan100", Main.cryptoTab, 3600);
-		item_fan_500 = new FanItem("Cooler 500", "fan500", Main.cryptoTab, 10800);
-		item_fan_1000 = new FanItem("Cooler 1000", "fan1000", Main.cryptoTab, 86400);
 		item_usbflash = new UsbflashItem("Usb-Flash","usbflash",Main.cryptoTab);
 	}
+	
 	@SideOnly(Side.CLIENT)
 	public static void registerName(Item item,String nameItem) {
 		if(FMLCommonHandler.instance().getSide().isClient()) {
 			LanguageRegistry.addName(item, nameItem);
 		}
 	}
+	
+	public static void syncDir() {
+	      for(File file : Main.auroraDir.listFiles()) {
+	       	 try {
+	       		if(file.getName().startsWith("M")) {
+	       			loadItems(file,EnumItemsPc.MOTHERBOARD);
+	       		}
+	       		if(file.getName().startsWith("G")) {
+	       			loadItems(file,EnumItemsPc.GPU);
+	       		}
+	       		if(file.getName().startsWith("F")) {
+	       			loadItems(file,EnumItemsPc.FAN);
+	       		}
+	       		if(file.getName().startsWith("C")) {
+	       			loadItems(file,EnumItemsPc.CPU);
+	       		}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+	      }
+	}
+	
+	public static void loadItems(File fileLoad,EnumItemsPc itemsPc) throws IOException {
+      try {
+          BufferedReader reader = new BufferedReader(new FileReader(fileLoad));
+          ArrayList<String> listOfVariables = new ArrayList<>();
+          String line;
+          if(itemsPc == EnumItemsPc.CPU) {
+              int count = 0;
+              while((line= reader.readLine())!=null){
+                  String[] val = line.split(":");
+                  String members = val[0];
+                  listOfVariables.add(members);
+                  count+=1;
+              }
+              String name = listOfVariables.get(0);
+              String nameTexture = listOfVariables.get(1);
+              int cof = Integer.parseInt(listOfVariables.get(2));
+              int chip = Integer.parseInt(listOfVariables.get(3));
+              int maxDamage = Integer.parseInt(listOfVariables.get(4));
+              listItems.add(new CpuItem(name, nameTexture, Main.cryptoTab, cof, chip, maxDamage));
+          }
+          if(itemsPc == EnumItemsPc.FAN) {
+              int count = 0;
+              while((line= reader.readLine())!=null){
+                  String[] val = line.split(":");
+                  String members = val[0];
+                  listOfVariables.add(members);
+                  count+=1;
+              }
+              String name = listOfVariables.get(0);
+              String nameTexture = listOfVariables.get(1);
+              int maxDamage = Integer.parseInt(listOfVariables.get(2));
+              listItems.add(new FanItem(name, nameTexture, Main.cryptoTab, maxDamage));
+          }
+          
+          if(itemsPc == EnumItemsPc.GPU) {
+              int count = 0;
+              while((line= reader.readLine())!=null){
+                  String[] val = line.split(":");
+                  String members = val[0];
+                  listOfVariables.add(members);
+                  count+=1;
+              }
+              String name = listOfVariables.get(0);
+              String nameTexture = listOfVariables.get(1);
+              int coinAdd = Integer.parseInt(listOfVariables.get(2));
+              int maxDamage = Integer.parseInt(listOfVariables.get(3));
+              listItems.add(new GpuItem(name, nameTexture, Main.cryptoTab, coinAdd, maxDamage));
+          }
+          if(itemsPc == EnumItemsPc.MOTHERBOARD) {
+              int count = 0;
+              while((line= reader.readLine())!=null){
+                  String[] val = line.split(":");
+                  String members = val[0];
+                  listOfVariables.add(members);
+                  count+=1;
+              }
+              String name = listOfVariables.get(0);
+              String nameTexture = listOfVariables.get(1);
+              int countGpu = Integer.parseInt(listOfVariables.get(2));
+              int chip = Integer.parseInt(listOfVariables.get(3));
+              EnumFormatMotherboard format = EnumFormatMotherboard.valueOf(listOfVariables.get(4));
+              listItems.add(new MotherboardItem(name, nameTexture, Main.cryptoTab, chip, countGpu, format));
+          }
+
+      }catch(Exception ex){
+          ex.printStackTrace();
+      }
+	}
+	
+	
+
+        
 }

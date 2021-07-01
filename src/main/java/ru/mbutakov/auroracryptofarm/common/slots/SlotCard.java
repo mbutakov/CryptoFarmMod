@@ -5,7 +5,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.ContainerBlockPc;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
-import ru.mbutakov.auroracryptofarm.common.items.VideoCard;
+import ru.mbutakov.auroracryptofarm.common.items.GpuItem;
 
 public class SlotCard extends Slot {
 
@@ -31,7 +31,7 @@ public class SlotCard extends Slot {
 		if(motherboard.getCountVideocard() == 2 && VidiocardSlot > 2) {
 			return false;
 		}
-		return stack == null || stack.getItem() instanceof VideoCard;
+		return stack == null || stack.getItem() instanceof GpuItem;
 	}
     
 }

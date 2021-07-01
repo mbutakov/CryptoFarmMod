@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.ContainerBlockPc;
 import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
-import ru.mbutakov.auroracryptofarm.common.items.VideoCard;
+import ru.mbutakov.auroracryptofarm.common.items.GpuItem;
 
 @Setter
 public class SlotCpu extends Slot {

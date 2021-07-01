@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.BlockPc;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.ContainerBlockPc;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
-import ru.mbutakov.auroracryptofarm.common.items.VideoCard;
+import ru.mbutakov.auroracryptofarm.common.items.GpuItem;
 import ru.mbutakov.auroracryptofarm.utils.EnumFormatMotherboard;
 import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
 

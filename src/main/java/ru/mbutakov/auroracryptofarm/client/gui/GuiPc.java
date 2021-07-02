@@ -59,6 +59,11 @@ public class GuiPc extends GuiScreen{
     private static final ResourceLocation slotAllowed = new ResourceLocation(Main.MODID, "textures/gui/slotAllowed.png");
 	private static final ResourceLocation texture = new ResourceLocation(Main.MODID, "textures/gui/ui.png");
 	private static final ResourceLocation overlay = new ResourceLocation(Main.MODID, "textures/gui/overlay.png");
+	private static final ResourceLocation blockedLay = new ResourceLocation(Main.MODID, "textures/gui/blockedLay.png");
+	private static final ResourceLocation blockedLayR = new ResourceLocation(Main.MODID, "textures/gui/blockedLayR.png");
+	private static final ResourceLocation blockedRLay = new ResourceLocation(Main.MODID, "textures/gui/blockedRLay.png");
+	private static final ResourceLocation blockedRLayR = new ResourceLocation(Main.MODID, "textures/gui/blockedRLayR.png");
+	
 	private boolean isFinished;
     public Container inventorySlots;
     protected int guiLeft;
@@ -91,8 +96,6 @@ public class GuiPc extends GuiScreen{
     private boolean field_146993_M;
     private ItemStack field_146994_N;
     
-    
-	private Slot[] playerInvItems;
     public GuiPc(InventoryPlayer inventoryplayer, TileBlockPc tile) {
         this.inventorySlots = (Container)new ContainerBlockPc(inventoryplayer, tile);
         this.tile = tile;
@@ -107,7 +110,6 @@ public class GuiPc extends GuiScreen{
     @Override
 	public void initGui() {
      super.initGui();
-     playerInvItems = null;
      this.top = 0;
      this.bottom = this.height;
      this.left = 0;
@@ -123,11 +125,24 @@ public class GuiPc extends GuiScreen{
     {
 	    GL11.glPushMatrix();
 	    GL11.glEnable(GL11.GL_BLEND);
-	    GL11.glColor4f(1f, 1f, 1f, 0.85f);
-		this.mc.getTextureManager().bindTexture(new ResourceLocation(Main.MODID, "textures/gui/overlay.png"));
+	    GL11.glColor4f(1f, 1f, 1f, 0.8f);
+		this.mc.getTextureManager().bindTexture(overlay);
 		DrawHelper.drawCustom((int) this.left, (int) (this.right - this.left), (int) (this.bottom - this.top),
 				(int) this.top);
 		GL11.glPopMatrix();
+    }
+    
+    @Override
+    public void drawWorldBackground(int p_146270_1_)
+    {
+        if (this.mc.theWorld != null)
+        {
+            this.drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
+        }
+        else
+        {
+            this.drawBackground(p_146270_1_);
+        }
     }
     
     
@@ -199,7 +214,7 @@ public class GuiPc extends GuiScreen{
 	                }
 	            }
 
-	           drawItemStack(itemstack, p_73863_1_- getRightElementPosX(20), p_73863_2_ - getRightElementPosY(20), s);
+	           drawItemStack(p_73863_1_- getRightElementPosX(20),p_73863_2_ - getRightElementPosY(20), itemstack);
 	        }
 	        
 	        if (this.returningStack != null)
@@ -260,14 +275,100 @@ public class GuiPc extends GuiScreen{
       }
 
     public void drawSlot(double xPos,double yPos,double sizeX,double sizeY,double startXWidth,double startYWidth, double xWidth,double yWidth,Slot slot) {
-    	if(slot.getHasStack()) {
-    	    this.mc.getTextureManager().bindTexture(slotHasStack);
-    	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+    	int []array = Utils.getNextDetail(inventorySlots);
+    	if(slot.getSlotIndex() == 0) {
+    		if(array[1] == 0) {
+    		    this.mc.getTextureManager().bindTexture(slotBlocked);
+        	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+    		}else {
+            	if(slot.getHasStack()) {
+            	    this.mc.getTextureManager().bindTexture(slotHasStack);
+            	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+            	}else {
+            	    this.mc.getTextureManager().bindTexture(slotAllowed);
+            	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+            	}
+    		}
+    	}else if(slot.getSlotIndex() == 1) {
+    		if(array[2] < 1) {
+    		    this.mc.getTextureManager().bindTexture(slotBlocked);
+        	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+    		}else {
+            	if(slot.getHasStack()) {
+            	    this.mc.getTextureManager().bindTexture(slotHasStack);
+            	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+            	}else {
+            	    this.mc.getTextureManager().bindTexture(slotAllowed);
+            	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+            	}
+    		}
+    	}else if(slot.getSlotIndex() == 3) {
+    		if(array[2] < 2) {
+    		    this.mc.getTextureManager().bindTexture(slotBlocked);
+        	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+    		}else {
+            	if(slot.getHasStack()) {
+            	    this.mc.getTextureManager().bindTexture(slotHasStack);
+            	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+            	}else {
+            	    this.mc.getTextureManager().bindTexture(slotAllowed);
+            	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+            	}
+    		}	
+    	}else if(slot.getSlotIndex() == 4) {
+    		if(array[2] < 3) {
+    		    this.mc.getTextureManager().bindTexture(slotBlocked);
+        	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+    		}else {
+            	if(slot.getHasStack()) {
+            	    this.mc.getTextureManager().bindTexture(slotHasStack);
+            	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+            	}else {
+            	    this.mc.getTextureManager().bindTexture(slotAllowed);
+            	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+            	}
+    		}	
+    		
     	}else {
-    	    this.mc.getTextureManager().bindTexture(slotAllowed);
-    	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+        	if(slot.getHasStack()) {
+        	    this.mc.getTextureManager().bindTexture(slotHasStack);
+        	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+        	}else {
+        	    this.mc.getTextureManager().bindTexture(slotAllowed);
+        	    DrawHelper.drawTexturedModalRect(xPos, sizeX, sizeY, yPos, startXWidth, startYWidth, xWidth, yWidth);
+        	}
     	}
+
     }
+    
+    public void drawSlotLay(double xPos,double yPos,double sizeX,double sizeY,double startXWidth,double startYWidth, double xWidth,double yWidth,boolean blocked,float rotate,String text) {
+    	GL11.glPushMatrix();    
+    	int color;
+  		if(blocked) {
+			color = 0xEB5757;
+		}else {
+			color = 0x2F80ED;
+		}
+    	if(rotate == 180) {
+    		if(blocked) {
+    			this.mc.getTextureManager().bindTexture(blockedRLayR);
+    		}else {
+    			this.mc.getTextureManager().bindTexture(blockedLayR);
+    		}
+        	 	DrawHelper.drawTexturedModalRect(getRightElementPosX(xPos), getRightElementPosX(sizeX), getRightElementPosY(sizeY), getRightElementPosY(yPos), startXWidth, startYWidth, xWidth, yWidth);
+        	 	drawCustomString(text, xPos + 10, yPos + 18, FontUtils.FontMonsterrat, 11.8f,color);
+    	}else {
+    		if(blocked) {
+    			this.mc.getTextureManager().bindTexture(blockedRLay);
+    		}else {
+    			this.mc.getTextureManager().bindTexture(blockedLay);
+    		}
+        	 	DrawHelper.drawTexturedModalRect(getRightElementPosX(xPos), getRightElementPosX(sizeX), getRightElementPosY(sizeY), getRightElementPosY(yPos), startXWidth, startYWidth, xWidth, yWidth);
+        		drawCustomString(text, xPos + 10, yPos + 18, FontUtils.FontMonsterrat, 11.8f,color);
+    	}
+    	GL11.glPopMatrix();
+    }
+    	    
     public void drawCustomString(String text,double posX,double posY,FontContainer font,float scale,int color) {
         GL11.glPushMatrix();
         GL11.glTranslatef(getRightElementPosX(posX), getRightElementPosY(posY), 0.0F);
@@ -275,6 +376,59 @@ public class GuiPc extends GuiScreen{
 		GL11.glScaled(0.0625D * Math.abs(scale), 0.0625D * Math.abs(scale), 1.0D);
         font.drawString(text, 0, 0, color);
         GL11.glPopMatrix();
+    }
+    
+    public void finalDrawSlotLay() {
+    	int []array = Utils.getNextDetail(inventorySlots);
+    	String string = " ";
+    	if(!inventorySlots.getSlot(5).getHasStack()) {
+    		string = "Вы можете установить охлаждение";
+    		drawSlotLay(240, 335, 235, 30, 0, 0, 256, 256, false,180,string);
+    	}
+       	if(!inventorySlots.getSlot(6).getHasStack()) {
+    		string = "Вы можете установить память";
+    		drawSlotLay(265, 425, 210, 30, 0, 0, 256, 256, false,180,string);
+    	}
+
+		
+    	if(array[1] == 1) {
+    		string = "Вы можете установить процессор";
+    		drawSlotLay(250, 250, 225, 30, 0, 0, 256, 256, false,180,string);
+    	}else if(array[1] == 0) {
+    		string = "Вы не можете установить процессор";
+    		drawSlotLay(230, 250, 245, 30, 0, 0, 256, 256, true,180,string);
+    	}
+    	if(array[2] < 1) {
+    		string = "Вы не можете установить видиокарту";
+    		drawSlotLay(1120, 250, 245, 30, 0, 0, 256, 256, true,0,string);
+    	}
+    	if(array[2] < 2) {
+      		string = "Вы не можете установить видиокарту";
+    		drawSlotLay(1120, 335, 245, 30, 0, 0, 256, 256, true,0,string);
+    	}
+    	if(array[2] < 3) {
+      		string = "Вы не можете установить видиокарту";
+    		drawSlotLay(1120, 425, 245, 30, 0, 0, 256, 256, true,0,string);
+    	}
+    	int yOf = 0;
+    	for(int i = 0; i < array[2]; i++) {
+    		yOf += 87;
+     		string = "Вы можете установить видиокарту";
+     		if(i == 0)
+     		if(!inventorySlots.getSlot(1).getHasStack()) {
+     			drawSlotLay(1120, 160+yOf, 228, 30, 0, 0, 256, 256, false,0,string);
+     		}
+     		if(i == 1)
+     		if(!inventorySlots.getSlot(3).getHasStack()) {
+     			drawSlotLay(1120, 160+yOf, 228, 30, 0, 0, 256, 256, false,0,string);
+     		}
+    		if(i == 2)
+         		if(!inventorySlots.getSlot(4).getHasStack()) {
+         			drawSlotLay(1120, 160+yOf, 228, 30, 0, 0, 256, 256, false,0,string);
+         	}
+    	}
+    		
+    	
     }
     
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int x, int y) {
@@ -301,6 +455,7 @@ public class GuiPc extends GuiScreen{
 	    drawCustomString("Видеокарта 1", 1035, 309, FontUtils.FontMonsterrat, 13,0x697C69);
 	    drawCustomString("Видеокарта 2", 1035, 399, FontUtils.FontMonsterrat, 13,0x697C69);
 	    drawCustomString("Видеокарта 3", 1035, 487, FontUtils.FontMonsterrat, 13,0x697C69);
+	    finalDrawSlotLay();
 	    try {
 		    if(hasItem(6)) {
 		    	UsbflashItem usbFlash = (UsbflashItem) inventorySlots.getSlot(6).getStack().getItem();
@@ -312,16 +467,16 @@ public class GuiPc extends GuiScreen{
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-	    
 	    GL11.glPushMatrix();
 		double a = getRightElementPosX(-20) / 1;
 		double b = getRightElementPosY(-20) / 1;
 	    GL11.glColor3f(1f, 1f, 1f);
 	    GL11.glPopMatrix();
-		this.mc.getTextureManager().bindTexture(new ResourceLocation(Main.MODID, "textures/gui/ui.png"));
+		this.mc.getTextureManager().bindTexture(texture);
 		DrawHelper.drawCustom((int) this.left, (int) (this.right - this.left), (int) (this.bottom - this.top),
 				(int) this.top);
 		GL11.glPopMatrix();
+		    
 		
 	}
     private void drawItemStack(ItemStack p_146982_1_, int p_146982_2_, int p_146982_3_, String p_146982_4_)
@@ -348,7 +503,7 @@ public class GuiPc extends GuiScreen{
 		double b = (this.bottom - this.top) / 900.0D * 48.0D;
 		GL11.glTranslatef(x, y, 0.0F);
 		GL11.glScaled(0.0625D * a, 0.0625D * b, 1.0D);
-		this.zLevel = 100.0F;
+		this.zLevel = 0.0F;
 		itemRender.zLevel = 0.0F;
 		itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, 0, 0);
 		itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, 0, 0,itemStack.stackSize + "");

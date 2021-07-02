@@ -42,7 +42,7 @@ public class Main {
 	public static File auroraDir;
 
 	@Mod.Instance(MODID)
-	public static Main INSTANCE;
+	public static Main instance;
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
 		auroraDir = new File(e.getModConfigurationDirectory().getParentFile(), "/" + Main.MODID + "/");

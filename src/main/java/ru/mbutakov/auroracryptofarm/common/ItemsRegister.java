@@ -71,13 +71,13 @@ public class ItemsRegister {
               int count = 0;
               while((line= reader.readLine())!=null){
                   String[] val = line.split(":");
-                  String members = val[0];
+                  String members = val[1];
                   listOfVariables.add(members);
                   count+=1;
               }
               String name = listOfVariables.get(0);
               String nameTexture = listOfVariables.get(1);
-              int cof = Integer.parseInt(listOfVariables.get(2));
+              double cof = Double.parseDouble(listOfVariables.get(2));
               int chip = Integer.parseInt(listOfVariables.get(3));
               int maxDamage = Integer.parseInt(listOfVariables.get(4));
               listItems.add(new CpuItem(name, nameTexture, Main.cryptoTab, cof, chip, maxDamage));
@@ -86,7 +86,7 @@ public class ItemsRegister {
               int count = 0;
               while((line= reader.readLine())!=null){
                   String[] val = line.split(":");
-                  String members = val[0];
+                  String members = val[1];
                   listOfVariables.add(members);
                   count+=1;
               }
@@ -100,13 +100,13 @@ public class ItemsRegister {
               int count = 0;
               while((line= reader.readLine())!=null){
                   String[] val = line.split(":");
-                  String members = val[0];
+                  String members = val[1];
                   listOfVariables.add(members);
                   count+=1;
               }
               String name = listOfVariables.get(0);
               String nameTexture = listOfVariables.get(1);
-              int coinAdd = Integer.parseInt(listOfVariables.get(2));
+              double coinAdd = Double.parseDouble(listOfVariables.get(2));
               int maxDamage = Integer.parseInt(listOfVariables.get(3));
               listItems.add(new GpuItem(name, nameTexture, Main.cryptoTab, coinAdd, maxDamage));
           }
@@ -114,7 +114,7 @@ public class ItemsRegister {
               int count = 0;
               while((line= reader.readLine())!=null){
                   String[] val = line.split(":");
-                  String members = val[0];
+                  String members = val[1];
                   listOfVariables.add(members);
                   count+=1;
               }

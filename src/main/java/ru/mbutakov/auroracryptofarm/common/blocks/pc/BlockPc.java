@@ -128,7 +128,7 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 	         if(!world.isRemote) {
 	        	TileEntity te = world.getTileEntity(x, y, z);
 	        	TileBlockPc te2 =  (TileBlockPc)te;
-	        	 player.openGui(Main.INSTANCE, 1, world, x, y, z);
+	        	 player.openGui(Main.instance, 1, world, x, y, z);
 	         }
 		return true;
 	}

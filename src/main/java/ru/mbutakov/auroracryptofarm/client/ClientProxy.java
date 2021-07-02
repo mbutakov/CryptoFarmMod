@@ -1,15 +1,20 @@
 package ru.mbutakov.auroracryptofarm.client;
 
+import java.util.List;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import ru.mbutakov.auroracryptofarm.client.render.RenderItemBlockPc;
 import ru.mbutakov.auroracryptofarm.client.render.RenderItemUsbflash;
-import ru.mbutakov.auroracryptofarm.client.render.RenderItemVideocard;
 import ru.mbutakov.auroracryptofarm.client.render.RenderTileEntityBlockPc;
 import ru.mbutakov.auroracryptofarm.common.BlocksRegister;
 import ru.mbutakov.auroracryptofarm.common.CommonProxy;
@@ -17,13 +22,14 @@ import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
 import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
 import ru.mbutakov.auroracryptofarm.utils.FontUtils;
+import ru.mbutakov.auroracryptofarm.utils.ShaderResourcePack;
 
 public class ClientProxy extends CommonProxy {
 
 	public void preInit() {
 		super.preInit();
 	    ClientRegistry.bindTileEntitySpecialRenderer((Class)TileBlockPc.class, (TileEntitySpecialRenderer)new RenderTileEntityBlockPc());
-	}
+}
 	
 	public void init() {
 		super.init();
@@ -36,6 +42,9 @@ public class ClientProxy extends CommonProxy {
 		final ClientEvents cevents = new ClientEvents();
 		MinecraftForge.EVENT_BUS.register(cevents);
 		FMLCommonHandler.instance().bus().register(cevents);
+	    ((List<ShaderResourcePack>)ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), new String[] { "field_110449_ao", "defaultResourcePacks" })).add(cevents.dummyPack);
+	    ((SimpleReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener((IResourceManagerReloadListener)cevents.dummyPack);
+	
 		 
 
 	}

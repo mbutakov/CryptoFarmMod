@@ -486,7 +486,6 @@ public class StringCache
 * "Edit sign message:" text. Otherwise, the sign which is rendered underneath would look too dark.
 */
         GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE); //fixes black text
-        GL11.glColor4f((color >> 16 & 0xff) / 255f, (color >> 8 & 0xff) / 255f, (color & 0xff) / 255f, 1);
         /*
 * Enable GL_BLEND in case the font is drawn anti-aliased because Minecraft itself only enables blending for chat text
 * (so it can fade out), but not GUI text or signs. Minecraft uses multiple blend functions so it has to be specified here
@@ -638,7 +637,6 @@ public class StringCache
             tessellator.draw();
             GL11.glEnable(GL11.GL_TEXTURE_2D);
         }
-
         /* Return total horizontal advance (slightly wider than the bounding box, but close enough for centering strings) */
         return entry.advance / 2;
     }

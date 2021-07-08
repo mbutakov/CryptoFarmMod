@@ -399,21 +399,21 @@ public class GuiPc extends GuiScreen{
     		drawSlotLay(230, 250, 245, 30, 0, 0, 256, 256, true,180,string);
     	}
     	if(array[2] < 1) {
-    		string = "Вы не можете установить видиокарту";
+    		string = "Вы не можете установить видеокарту";
     		drawSlotLay(1120, 250, 245, 30, 0, 0, 256, 256, true,0,string);
     	}
     	if(array[2] < 2) {
-      		string = "Вы не можете установить видиокарту";
+      		string = "Вы не можете установить видеокарту";
     		drawSlotLay(1120, 335, 245, 30, 0, 0, 256, 256, true,0,string);
     	}
     	if(array[2] < 3) {
-      		string = "Вы не можете установить видиокарту";
+      		string = "Вы не можете установить видеокарту";
     		drawSlotLay(1120, 425, 245, 30, 0, 0, 256, 256, true,0,string);
     	}
     	int yOf = 0;
     	for(int i = 0; i < array[2]; i++) {
     		yOf += 87;
-     		string = "Вы можете установить видиокарту";
+     		string = "Вы можете установить видеокарту";
      		if(i == 0)
      		if(!inventorySlots.getSlot(1).getHasStack()) {
      			drawSlotLay(1120, 160+yOf, 228, 30, 0, 0, 256, 256, false,0,string);
@@ -459,7 +459,7 @@ public class GuiPc extends GuiScreen{
 	    try {
 		    if(hasItem(6)) {
 		    	UsbflashItem usbFlash = (UsbflashItem) inventorySlots.getSlot(6).getStack().getItem();
-		    	String text = "У вас: " + Utils.formatNumber(usbFlash.getCoin(inventorySlots.getSlot(6).getStack())) + " биткоинов";
+		    	String text = "У вас: " + Utils.formatNumber(usbFlash.getCoin(inventorySlots.getSlot(6).getStack())) + " ACOIN";
 		     	drawCustomString(text, 790 - (5 *text.length()), 130, FontUtils.FontMonsterratSemi, 20,0x9FC69F);
 		    }else {
 		    	drawCustomString("Флеш карта не вставлена", 660, 130, FontUtils.FontMonsterratSemi, 20,0x9FC69F);

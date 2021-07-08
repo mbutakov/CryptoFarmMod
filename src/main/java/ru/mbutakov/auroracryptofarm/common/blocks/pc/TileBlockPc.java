@@ -10,9 +10,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
-import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
-import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
 import ru.mbutakov.auroracryptofarm.common.items.GpuItem;
+import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
 
 public class TileBlockPc extends TileEntity implements IInventory {
 
@@ -34,29 +33,56 @@ public class TileBlockPc extends TileEntity implements IInventory {
     				super.updateEntity();
     				ItemStack stackCpu = getStackInSlot(0);
     				ItemStack stackVidiocard = getStackInSlot(1);
+    				ItemStack stackVidiocard2 = getStackInSlot(3);
+    				ItemStack stackVidiocard3 = getStackInSlot(4);
     				ItemStack stackMotherboard = getStackInSlot(2);
     				ItemStack stackUsbflash = getStackInSlot(6);
-    				if(stackCpu != null && stackVidiocard != null && stackMotherboard != null && stackUsbflash != null) {
+    				if(stackCpu != null && ( stackVidiocard != null || stackVidiocard2 != null || stackVidiocard3 != null) && stackMotherboard != null && stackUsbflash != null) {
     					CpuItem cpu = (CpuItem) stackCpu.getItem();
     					double cpuX = cpu.getCofProcess(stackCpu);
     					double moneyAdd = 0;
     					if(getStackInSlot(5) != null) {
-    						getStackInSlot(5).setItemDamage(getStackInSlot(5).getItemDamage() + 1);
+    						ItemStack stack = getStackInSlot(5);
+    						if(stack.getItemDamage() < stack.getMaxDamage()) {
+    							stack.setItemDamage(stack.getItemDamage() + 1);
+    						}else {
+    							stack.stackSize--;
+    						}
     					}
     					if(getStackInSlot(3) != null) {
-    						getStackInSlot(3).setItemDamage(getStackInSlot(3).getItemDamage() + 1);
+     						ItemStack stack = getStackInSlot(3);
+    						if(stack.getItemDamage() < stack.getMaxDamage()) {
+    							stack.setItemDamage(stack.getItemDamage() + 1);
+    						}else {
+    							stack.stackSize--;
+    						}
     					}
     					if(getStackInSlot(4) != null) {
-    						getStackInSlot(4).setItemDamage(getStackInSlot(4).getItemDamage() + 1);
+     						ItemStack stack = getStackInSlot(4);
+    						if(stack.getItemDamage() < stack.getMaxDamage()) {
+    							stack.setItemDamage(stack.getItemDamage() + 1);
+    						}else {
+    							stack.stackSize--;
+    						}
     					}
-    					stackVidiocard.setItemDamage(stackVidiocard.getItemDamage() + 1);
+    					if(stackVidiocard != null) {
+    						ItemStack stack = stackVidiocard;
+    						if(stack.getItemDamage() < stack.getMaxDamage()) {
+    							stack.setItemDamage(stack.getItemDamage() + 1);
+    						}else {
+    							stack.stackSize--;
+    						}
+    					}
+ 
     					if(getStackInSlot(3) != null) {
     						moneyAdd += ((GpuItem)getStackInSlot(3).getItem()).getCoinAdd();
     					}
-    					if(getStackInSlot(4) != null) {
-    						moneyAdd += ((GpuItem)getStackInSlot(4).getItem()).getCoinAdd();
+    					if(stackVidiocard3 != null) {
+    						moneyAdd += ((GpuItem)stackVidiocard3.getItem()).getCoinAdd();
     					}
-    					moneyAdd += ((GpuItem)stackVidiocard.getItem()).getCoinAdd();
+    					if(stackVidiocard != null) {
+    						moneyAdd += ((GpuItem)stackVidiocard.getItem()).getCoinAdd();
+    					}
     					UsbflashItem flash = (UsbflashItem) stackUsbflash.getItem();
     					flash.addCoin(stackUsbflash, moneyAdd * cpuX);
     				}else {
@@ -76,6 +102,7 @@ public class TileBlockPc extends TileEntity implements IInventory {
     			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println(e);
 		}
         if (this.worldObj.isRemote) {
             return;

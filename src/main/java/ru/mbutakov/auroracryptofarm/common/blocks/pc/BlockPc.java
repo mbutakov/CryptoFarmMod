@@ -30,13 +30,14 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 	private EnumPcTier tier;
 	
 	public BlockPc(String name, String nameTexture, CreativeTabs tab,EnumPcTier tier) {
-		super(Material.iron);
+		super(Material.wood);
 		setCreativeTab(tab);
 		setBlockName(name);
+		setHardness(0.5f);
+		setBlockTextureName(Main.MODID + ":blockPc");
 		this.tier = tier;
 		GameRegistry.registerBlock(this, name);
 		Main.proxy.registerName(Item.getItemFromBlock(this), name);
-
 	}
 
 	@Override
@@ -80,6 +81,11 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 				}
 			}
 		}
+//		float f = world.rand.nextFloat() * 0.8F + 0.1F;
+//		float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+//		float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
+//		EntityItem entityitem = new EntityItem(world, (double)((float)x + f), (double)((float)y + f1), (double)((float)z + f2), new ItemStack(blockOld));
+//		world.spawnEntityInWorld(entityitem);
 		super.breakBlock(world, x, y, z, blockOld, metadataOld);
 	}
 
@@ -91,9 +97,8 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 		}else {
 			this.setBlockBounds(0F, 0.0F, 0.0F + x, 1F, 1.0F, 1F - x);
 		}
+		
 	}
-	 
-	
 	
 	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {

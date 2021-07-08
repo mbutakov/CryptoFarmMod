@@ -1,14 +1,10 @@
 package ru.mbutakov.auroracryptofarm;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -22,7 +18,6 @@ import ru.mbutakov.auroracryptofarm.common.CommonProxy;
 import ru.mbutakov.auroracryptofarm.common.GuiHandler;
 import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
-import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
 
 @Mod(name = Main.MODID, modid = Main.MODID, version = "1.0")
 

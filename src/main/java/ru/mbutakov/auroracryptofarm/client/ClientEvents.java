@@ -21,6 +21,7 @@ import net.minecraft.client.util.JsonException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import ru.mbutakov.auroracryptofarm.Main;
+import ru.mbutakov.auroracryptofarm.client.gui.GuiBank;
 import ru.mbutakov.auroracryptofarm.client.gui.GuiPc;
 import ru.mbutakov.auroracryptofarm.utils.ShaderResourcePack;
 
@@ -48,7 +49,7 @@ public class ClientEvents {
 						new String[] { "field_148031_d", "listShaders" });
 			if ((Minecraft.getMinecraft()).theWorld != null && ShaderLinkHelper.getStaticShaderLinkHelper() != null) {
 				EntityRenderer er = (Minecraft.getMinecraft()).entityRenderer;
-				if (!er.isShaderActive() && event.gui != null && event.gui instanceof GuiPc) {
+				if (!er.isShaderActive() && event.gui != null && (event.gui instanceof GuiPc || event.gui instanceof GuiBank)) {
 					Minecraft mc = Minecraft.getMinecraft();
 					er.theShaderGroup = new ShaderGroup(mc.getTextureManager(), mc.getResourceManager(),
 							mc.getFramebuffer(), new ResourceLocation("shaders/post/fade_in_blur.json"));
@@ -66,7 +67,7 @@ public class ClientEvents {
 	  
 	  @SubscribeEvent
 	  public void onRenderTick(TickEvent.RenderTickEvent event) {
-		  if(Minecraft.getMinecraft().currentScreen instanceof GuiPc){
+		  if(Minecraft.getMinecraft().currentScreen instanceof GuiPc || Minecraft.getMinecraft().currentScreen instanceof GuiBank){
 			    if (event.phase == TickEvent.Phase.END && (Minecraft.getMinecraft()).currentScreen != null && (Minecraft.getMinecraft()).entityRenderer.isShaderActive()) {
 				      ShaderGroup sg = (Minecraft.getMinecraft()).entityRenderer.getShaderGroup();
 				      try {

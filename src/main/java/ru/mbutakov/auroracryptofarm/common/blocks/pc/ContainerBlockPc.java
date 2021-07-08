@@ -52,7 +52,6 @@ public class ContainerBlockPc extends Container  {
     	try {
     		 ItemStack itemstack = null;
     	        Slot slot = (Slot)this.inventorySlots.get(slotRaw);
-    	        System.out.println(slotRaw);
     	        if (slot != null && slot.getHasStack())
     	        {
     	            ItemStack itemstack1 = slot.getStack();

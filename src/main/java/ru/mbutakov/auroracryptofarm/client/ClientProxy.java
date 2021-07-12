@@ -15,10 +15,12 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import ru.mbutakov.auroracryptofarm.client.render.RenderItemBlockPc;
 import ru.mbutakov.auroracryptofarm.client.render.RenderItemUsbflash;
+import ru.mbutakov.auroracryptofarm.client.render.RenderTileEntityBlockBank;
 import ru.mbutakov.auroracryptofarm.client.render.RenderTileEntityBlockPc;
 import ru.mbutakov.auroracryptofarm.common.BlocksRegister;
 import ru.mbutakov.auroracryptofarm.common.CommonProxy;
 import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
+import ru.mbutakov.auroracryptofarm.common.blocks.bank.TileBlockBank;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
 import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
 import ru.mbutakov.auroracryptofarm.utils.FontUtils;
@@ -29,7 +31,9 @@ public class ClientProxy extends CommonProxy {
 	public void preInit() {
 		super.preInit();
 	    ClientRegistry.bindTileEntitySpecialRenderer((Class)TileBlockPc.class, (TileEntitySpecialRenderer)new RenderTileEntityBlockPc());
-}
+	    ClientRegistry.bindTileEntitySpecialRenderer((Class)TileBlockBank.class, (TileEntitySpecialRenderer)new RenderTileEntityBlockBank());
+		
+	}
 	
 	public void init() {
 		super.init();

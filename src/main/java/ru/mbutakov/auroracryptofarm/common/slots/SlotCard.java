@@ -21,15 +21,18 @@ public class SlotCard extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-		if(container.getSlot(2).getStack() == null) {
-			return false;
-		}
-		MotherboardItem motherboard = (MotherboardItem) container.getSlot(2).getStack().getItem();
-		if(motherboard.getCountVideocard() == 1 && VidiocardSlot > 1) {
-			return false;
-		}
-		if(motherboard.getCountVideocard() == 2 && VidiocardSlot > 2) {
-			return false;
+		try {
+			if(container.getSlot(2).getStack() == null) {
+				return false;
+			}
+			MotherboardItem motherboard = (MotherboardItem) container.getSlot(2).getStack().getItem();
+			if(motherboard.getCountVideocard() == 1 && VidiocardSlot > 1) {
+				return false;
+			}
+			if(motherboard.getCountVideocard() == 2 && VidiocardSlot > 2) {
+				return false;
+			}
+		} catch (Exception e) {
 		}
 		return stack == null || stack.getItem() instanceof GpuItem;
 	}

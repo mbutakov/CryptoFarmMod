@@ -17,6 +17,7 @@ import ru.mbutakov.auroracryptofarm.common.BlocksRegister;
 import ru.mbutakov.auroracryptofarm.common.CommonProxy;
 import ru.mbutakov.auroracryptofarm.common.GuiHandler;
 import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
+import ru.mbutakov.auroracryptofarm.common.blocks.bank.TileBlockBank;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
 
 @Mod(name = Main.MODID, modid = Main.MODID, version = "1.0")
@@ -52,7 +53,7 @@ public class Main {
 		BlocksRegister.registerBlocks();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 		GameRegistry.registerTileEntity(TileBlockPc.class, "TileBlockPc");
-
+		GameRegistry.registerTileEntity(TileBlockBank.class, "TileBlockBank");
 	}
 	
 	@EventHandler

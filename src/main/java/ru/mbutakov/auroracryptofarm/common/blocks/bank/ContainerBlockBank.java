@@ -9,7 +9,6 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import ru.mbutakov.auroracryptofarm.common.InentoryBank;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
 import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
 import ru.mbutakov.auroracryptofarm.common.slots.SlotCard;
@@ -31,7 +30,6 @@ public class ContainerBlockBank extends Container  {
         this.inv = new InentoryBank(player);
         this.player = player;
           addSlotToContainer(new SlotUsbFlashBank(inv, slotID++, 79, 58, this));
-        //Инвентарь
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 9; j++)
@@ -39,7 +37,6 @@ public class ContainerBlockBank extends Container  {
                 addSlotToContainer(new Slot(inventoryplayer, j + i * 9 + 9, 7 + j * 18, 114 + i * 18));
             }
         }
-        //Хотбар
         for (int i = 0; i < 9; i++)
         {
             addSlotToContainer(new Slot(inventoryplayer, i, 7 + i * 18, 172));

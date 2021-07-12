@@ -7,6 +7,5 @@ public class CommonEvents {
 
 	@SubscribeEvent
 	public void blockSpeedBreak(PlayerEvent.BreakSpeed e) {
-		System.out.println("s");
 	}
 }

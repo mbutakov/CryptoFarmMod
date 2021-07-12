@@ -20,17 +20,23 @@ public class SlotCpu extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-		if(stack == null || stack.getItem() instanceof CpuItem) {
-			ItemStack stackSlot = container.getSlot(2).getStack();
-			if(stackSlot == null) {
+		try {
+			if(stack == null || stack.getItem() instanceof CpuItem) {
+				ItemStack stackSlot = container.getSlot(2).getStack();
+				if(stackSlot == null) {
+					return false;
+				}
+				if(stackSlot.getItem() instanceof MotherboardItem) {
+					MotherboardItem motherBoard = (MotherboardItem)stackSlot.getItem();
+					if(motherBoard.getChip() != ((CpuItem)stack.getItem()).getChip()) {
+						return false;
+					}
+				}
+			}else {
 				return false;
 			}
-			MotherboardItem motherBoard = (MotherboardItem)stackSlot.getItem();
-			if(motherBoard.getChip() != ((CpuItem)stack.getItem()).getChip()) {
-				return false;
-			}
-		}else {
-			return false;
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		return true;
 	}

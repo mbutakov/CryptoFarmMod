@@ -18,5 +18,7 @@ public class mbResourceLocation {
 	   public static final IModelCustom blockPcLow = new ModelWrapperDisplayList((WavefrontObject)AdvancedModelLoader.loadModel(new ResourceLocation(Main.MODID, "models/blocks/pclow.obj")));
 	   public static final ResourceLocation blockPcTexLow = new ResourceLocation(Main.MODID, "textures/models/blocks/pcLow.png");
 	   public static final ResourceLocation blockPcTexTop = new ResourceLocation(Main.MODID, "textures/models/blocks/pcTexTop.png");
-		
+	   public static final IModelCustom blockBank = new ModelWrapperDisplayList((WavefrontObject)AdvancedModelLoader.loadModel(new ResourceLocation(Main.MODID, "models/blocks/bank.obj")));
+	   public static final ResourceLocation blockBankTex = new ResourceLocation(Main.MODID, "textures/models/blocks/bank.png");
+	  
 }

@@ -16,7 +16,7 @@ public class BlocksRegister {
 		BlockPcLow = new BlockPc("Block Pc Low","block_pc",Main.cryptoTab, EnumPcTier.LOW);
         BlockPcMiddle = new BlockPc("Block Pc Middle","block_pc",Main.cryptoTab, EnumPcTier.MIDDLE);
         BlockPcTop = new BlockPc("Block Pc Top","block_pc",Main.cryptoTab, EnumPcTier.TOP);
-        BlockBank = new BlockBank("Block Bank","banktexture",Main.cryptoTab);
+        BlockBank = new BlockBank("Block_Bank","banktexture",Main.cryptoTab);
 	}
 
 }

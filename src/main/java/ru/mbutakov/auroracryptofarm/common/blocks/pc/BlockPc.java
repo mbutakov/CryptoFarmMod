@@ -81,11 +81,7 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 				}
 			}
 		}
-//		float f = world.rand.nextFloat() * 0.8F + 0.1F;
-//		float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
-//		float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-//		EntityItem entityitem = new EntityItem(world, (double)((float)x + f), (double)((float)y + f1), (double)((float)z + f2), new ItemStack(blockOld));
-//		world.spawnEntityInWorld(entityitem);
+
 		super.breakBlock(world, x, y, z, blockOld, metadataOld);
 	}
 

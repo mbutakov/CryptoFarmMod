@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
 import ru.mbutakov.auroracryptofarm.common.items.GpuItem;
+import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
 import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
 
 public class TileBlockPc extends TileEntity implements IInventory {
@@ -29,6 +30,7 @@ public class TileBlockPc extends TileEntity implements IInventory {
     
     public void updateEntity() {
     	try {
+    		if(!worldObj.isRemote) {
     		  if(worldObj.getTotalWorldTime() % 20 == 1) {
     				super.updateEntity();
     				ItemStack stackCpu = getStackInSlot(0);
@@ -38,6 +40,20 @@ public class TileBlockPc extends TileEntity implements IInventory {
     				ItemStack stackMotherboard = getStackInSlot(2);
     				ItemStack stackUsbflash = getStackInSlot(6);
     				if(stackCpu != null && ( stackVidiocard != null || stackVidiocard2 != null || stackVidiocard3 != null) && stackMotherboard != null && stackUsbflash != null) {
+    					if(stackCpu.getItem() instanceof CpuItem) {
+    					}else {
+    						for(int i = 0; i < 3; i++) {
+    							worldObj.spawnParticle("flame", xCoord + worldObj.rand.nextDouble(), yCoord + worldObj.rand.nextDouble(), zCoord + worldObj.rand.nextDouble(), 0, 0.1, 0);
+    						}
+    						return;
+    					}
+      					if(stackMotherboard.getItem() instanceof MotherboardItem) {
+    					}else {
+    						for(int i = 0; i < 3; i++) {
+    							worldObj.spawnParticle("flame", xCoord + worldObj.rand.nextDouble(), yCoord + worldObj.rand.nextDouble(), zCoord + worldObj.rand.nextDouble(), 0, 0.1, 0);
+    						}
+    						return;
+    					}
     					CpuItem cpu = (CpuItem) stackCpu.getItem();
     					double cpuX = cpu.getCofProcess(stackCpu);
     					double moneyAdd = 0;
@@ -46,7 +62,7 @@ public class TileBlockPc extends TileEntity implements IInventory {
     						if(stack.getItemDamage() < stack.getMaxDamage()) {
     							stack.setItemDamage(stack.getItemDamage() + 1);
     						}else {
-    							stack.stackSize--;
+    							setInventorySlotContents(5, null);
     						}
     					}
     					if(getStackInSlot(3) != null) {
@@ -54,7 +70,7 @@ public class TileBlockPc extends TileEntity implements IInventory {
     						if(stack.getItemDamage() < stack.getMaxDamage()) {
     							stack.setItemDamage(stack.getItemDamage() + 1);
     						}else {
-    							stack.stackSize--;
+    							setInventorySlotContents(3, null);
     						}
     					}
     					if(getStackInSlot(4) != null) {
@@ -62,7 +78,7 @@ public class TileBlockPc extends TileEntity implements IInventory {
     						if(stack.getItemDamage() < stack.getMaxDamage()) {
     							stack.setItemDamage(stack.getItemDamage() + 1);
     						}else {
-    							stack.stackSize--;
+    							setInventorySlotContents(4, null);
     						}
     					}
     					if(stackVidiocard != null) {
@@ -70,7 +86,7 @@ public class TileBlockPc extends TileEntity implements IInventory {
     						if(stack.getItemDamage() < stack.getMaxDamage()) {
     							stack.setItemDamage(stack.getItemDamage() + 1);
     						}else {
-    							stack.stackSize--;
+    							setInventorySlotContents(1, null);
     						}
     					}
  
@@ -94,14 +110,20 @@ public class TileBlockPc extends TileEntity implements IInventory {
     				ItemStack stackFan = getStackInSlot(5);
     				if(stackCpu != null) {
     					if(stackFan == null) {
+    						if(stackCpu.getItemDamage() > stackCpu.getMaxDamage()) {
+    							setInventorySlotContents(0, null);
+    						}
     						stackCpu.setItemDamage(stackCpu.getItemDamage() + 5);
     					}else {
+    						if(stackCpu.getItemDamage() > stackCpu.getMaxDamage()) {
+    							setInventorySlotContents(0, null);
+    						}
     						stackCpu.setItemDamage(stackCpu.getItemDamage() + 1);
     					}
     				}
     			}
+    		}
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.println(e);
 		}
         if (this.worldObj.isRemote) {

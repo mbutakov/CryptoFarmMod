@@ -28,19 +28,27 @@ public class Utils {
 	  
 	  public static int[] getNextDetail(Container inv) {
 		  int array[] = new int[5];
-		  if(inv.getSlot(2).getHasStack()) {
-			  	array[1] = 1;
-		  }
-		  if(inv.getSlot(0).getHasStack()) {
-			  array[1] = 2;
-		  }
-		  if(inv.getSlot(2).getStack() != null){
-			  ItemStack Motherboard = inv.getSlot(2).getStack();
-			  MotherboardItem motherboard = (MotherboardItem) Motherboard.getItem();
-			  array[2] = motherboard.getCountVideocard();
-		  }else {
-			  array[2] = 0;
-		  }
+		  try{
+			  if(inv.getSlot(2).getHasStack()) {
+				  	array[1] = 1;
+			  }
+			  if(inv.getSlot(0).getHasStack()) {
+				  array[1] = 2;
+			  }
+			  if(inv.getSlot(2).getStack() != null){
+				  ItemStack Motherboard = inv.getSlot(2).getStack();
+				  if(Motherboard.getItem() instanceof MotherboardItem) {
+					  MotherboardItem motherboard = (MotherboardItem) Motherboard.getItem();
+					  array[2] = motherboard.getCountVideocard();
+				  }
+			  }else {
+				  array[2] = 0;
+			  }
+			   
+		  }catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		  
 		  
 		  

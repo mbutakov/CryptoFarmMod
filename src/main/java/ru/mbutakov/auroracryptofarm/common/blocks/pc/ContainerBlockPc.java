@@ -71,27 +71,6 @@ public class ContainerBlockPc extends Container  {
     	            {
     	                slot.onSlotChanged();
     	            }
-//
-//    	            if (slotRaw < 4 * 9)
-//    	            {
-//    	                if (!this.mergeItemStack(itemstack1, 4 * 9, this.inventorySlots.size(), true))
-//    	                {
-//    	                    return null;
-//    	                }
-//    	            }
-//    	            else if (!this.mergeItemStack(itemstack1, 0, 4 * 9, false))
-//    	            {
-//    	                return null;
-//    	            }
-//
-//    	            if (itemstack1.stackSize == 0)
-//    	            {
-//    	                slot.putStack((ItemStack)null);
-//    	            }
-//    	            else
-//    	            {
-//    	                slot.onSlotChanged();
-//    	            }
     	        }
     	        return null;
 		} catch (Exception e) {

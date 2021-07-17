@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.lwjgl.input.Keyboard;
@@ -26,16 +27,24 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.mbutakov.auroracryptofarm.Main;
+import ru.mbutakov.auroracryptofarm.client.ClientProxy;
 import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.ContainerBlockPc;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
 import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotCard;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotCpu;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotFan;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotMotherboard;
+import ru.mbutakov.auroracryptofarm.common.slots.SlotUsbFlash;
 import ru.mbutakov.auroracryptofarm.utils.DrawHelper;
 import ru.mbutakov.auroracryptofarm.utils.FontUtils;
 import ru.mbutakov.auroracryptofarm.utils.FontUtils.FontContainer;
@@ -175,7 +184,7 @@ public class GuiPc extends GuiScreen{
 		            this.func_146977_a(slot);
 		            int j1 = slot.xDisplayPosition;
 		            k1 = slot.yDisplayPosition;
-	                int posX = getRightElementPosX(j1 * 3.815f) + getRightElementPosX(470);
+	                int posX = getRightElementPosX(j1 * 3.82f) + getRightElementPosX(469);
 	                int size = getRightElementPosX(62f);
 	                int sizeY = getRightElementPosY(62F);
 	                int posY = getRightElementPosY(k1 * 3.95f) + getRightElementPosY(71);
@@ -239,8 +248,110 @@ public class GuiPc extends GuiScreen{
 	            ItemStack itemstack1 = this.theSlot.getStack();
 	            this.renderToolTip(itemstack1, p_73863_1_, p_73863_2_);
 	        }
-		  
     }
+	
+	@Override
+    protected void renderToolTip(ItemStack p_146285_1_, int p_146285_2_, int p_146285_3_)
+    {
+        List list = p_146285_1_.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+
+        for (int k = 0; k < list.size(); ++k)
+        {
+            if (k == 0)
+            {
+                list.set(k, p_146285_1_.getRarity().rarityColor + (String)list.get(k));
+            }
+            else
+            {
+                list.set(k, EnumChatFormatting.GRAY + (String)list.get(k));
+            }
+        }
+
+        FontRenderer font = p_146285_1_.getItem().getFontRenderer(p_146285_1_);
+        drawHoveringText(list, p_146285_2_, p_146285_3_, (font == null ? fontRendererObj : font));
+    }
+	
+	@Override
+    protected void drawHoveringText(List p_146283_1_, int p_146283_2_, int p_146283_3_, FontRenderer font)
+    {
+        if (!p_146283_1_.isEmpty())
+        {
+            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+            RenderHelper.disableStandardItemLighting();
+            GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glDisable(GL11.GL_DEPTH_TEST);
+            int k = 0;
+            Iterator iterator = p_146283_1_.iterator();
+
+            while (iterator.hasNext())
+            {
+                String s = (String)iterator.next();
+                int l = font.getStringWidth(s);
+
+                if (l > k)
+                {
+                    k = l;
+                }
+            }
+
+            int j2 = p_146283_2_ + 12;
+            int k2 = p_146283_3_ - 12;
+            int i1 = 8;
+
+            if (p_146283_1_.size() > 1)
+            {
+                i1 += 2 + (p_146283_1_.size() - 1) * 10;
+            }
+
+            if (j2 + k > this.width)
+            {
+                j2 -= 28 + k;
+            }
+
+            if (k2 + i1 + 6 > this.height)
+            {
+                k2 = this.height - i1 - 6;
+            }
+
+            this.zLevel = 300.0F;
+            itemRender.zLevel = 300.0F;
+            int j1 = -267386865;
+            this.drawGradientRect(j2 - 4, k2 - 4, j2 + k + 4, k2 - 3, j1, j1);
+            this.drawGradientRect(j2 - 4, k2 + i1 + 3, j2 + k + 4, k2 + i1 + 4, j1, j1);
+            this.drawGradientRect(j2 - 4, k2 - 3, j2 + k + 3, k2 + i1 + 3, j1, j1);
+            this.drawGradientRect(j2 - 4, k2 - 3, j2 - 3, k2 + i1 + 3, j1, j1);
+            this.drawGradientRect(j2 + k + 3, k2 - 3, j2 + k + 4, k2 + i1 + 3, j1, j1);
+            int k1 = -799999999;
+            int l1 = (k1 & 16711422) >> 1 | k1 & -16777216;
+            this.drawGradientRect(j2 - 3, k2 - 3 + 1, j2 - 3 + 1, k2 + i1 + 3 - 1, k1, l1);
+            this.drawGradientRect(j2 + k + 2, k2 - 3 + 1, j2 + k + 3, k2 + i1 + 3 - 1, k1, l1);
+            this.drawGradientRect(j2 - 3, k2 - 3, j2 + k + 3, k2 - 3 + 1, k1, k1);
+            this.drawGradientRect(j2 - 3, k2 + i1 + 2, j2 + k + 3, k2 + i1 + 3, l1, l1);
+
+            for (int i2 = 0; i2 < p_146283_1_.size(); ++i2)
+            {
+                String s1 = (String)p_146283_1_.get(i2);
+                font.drawStringWithShadow(s1, j2, k2, -1);
+
+                if (i2 == 0)
+                {
+                    k2 += 2;
+                }
+
+                k2 += 10;
+            }
+
+
+            this.zLevel = 0.0F;
+            itemRender.zLevel = 0.0F;
+            GL11.glEnable(GL11.GL_LIGHTING);
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            RenderHelper.enableStandardItemLighting();
+            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        }
+    }
+    
+    
     public boolean hasCpu() {
 		ItemStack itemStack = inventorySlots.getSlot(0).getStack();
     	if(itemStack != null) {
@@ -416,15 +527,15 @@ public class GuiPc extends GuiScreen{
      		string = "Вы можете установить видеокарту";
      		if(i == 0)
      		if(!inventorySlots.getSlot(1).getHasStack()) {
-     			drawSlotLay(1120, 160+yOf, 228, 30, 0, 0, 256, 256, false,0,string);
+     			drawSlotLay(1120, 250, 228, 30, 0, 0, 256, 256, false,0,string);
      		}
      		if(i == 1)
      		if(!inventorySlots.getSlot(3).getHasStack()) {
-     			drawSlotLay(1120, 160+yOf, 228, 30, 0, 0, 256, 256, false,0,string);
+     			drawSlotLay(1120, 335, 228, 30, 0, 0, 256, 256, false,0,string);
      		}
     		if(i == 2)
          		if(!inventorySlots.getSlot(4).getHasStack()) {
-         			drawSlotLay(1120, 160+yOf, 228, 30, 0, 0, 256, 256, false,0,string);
+         			drawSlotLay(1120, 425, 228, 30, 0, 0, 256, 256, false,0,string);
          	}
     	}
     		
@@ -441,13 +552,13 @@ public class GuiPc extends GuiScreen{
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1, 1, 1, 1f);
-	    drawSlot(getRightElementPosX(493.0D),getRightElementPosY(232.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(0));
-	    drawSlot(getRightElementPosX(493.0D),getRightElementPosY(319.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(5));
-	    drawSlot(getRightElementPosX(493.0D),getRightElementPosY(409.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(6));
-	    drawSlot(getRightElementPosX(1047.0D),getRightElementPosY(232.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(1));
-	    drawSlot(getRightElementPosX(1047.0D),getRightElementPosY(319.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(3));
-	    drawSlot(getRightElementPosX(1047.0D),getRightElementPosY(409.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(4));
-	    drawSlot(getRightElementPosX(770.0D),getRightElementPosY(409.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(2));
+	    drawSlot(getRightElementPosX(495.0D),getRightElementPosY(232.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(0));
+	    drawSlot(getRightElementPosX(495.0D),getRightElementPosY(319.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(5));
+	    drawSlot(getRightElementPosX(495.0D),getRightElementPosY(411.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(6));
+	    drawSlot(getRightElementPosX(1046.0D),getRightElementPosY(232.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(1));
+	    drawSlot(getRightElementPosX(1046.0D),getRightElementPosY(319.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(3));
+	    drawSlot(getRightElementPosX(1046.0D),getRightElementPosY(411.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(4));
+	    drawSlot(getRightElementPosX(771.0D),getRightElementPosY(411.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(2));
 	    drawCustomString("Память", 500, 487, FontUtils.FontMonsterrat, 13,0x697C69);
 	    drawCustomString("Охлаждение", 490, 399, FontUtils.FontMonsterrat, 13,0x697C69);
 	    drawCustomString("Процессор", 490, 309, FontUtils.FontMonsterrat, 13,0x697C69);
@@ -479,20 +590,6 @@ public class GuiPc extends GuiScreen{
 		    
 		
 	}
-    private void drawItemStack(ItemStack p_146982_1_, int p_146982_2_, int p_146982_3_, String p_146982_4_)
-    {
-        GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-        this.zLevel = 200.0F;
-        itemRender.zLevel = 200.0F;
-        FontRenderer font = null;
-        if (p_146982_1_ != null) font = p_146982_1_.getItem().getFontRenderer(p_146982_1_);
-        if (font == null) font = fontRendererObj;
-        itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_);
-        itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_ - (this.draggedStack == null ? 0 : 8), p_146982_4_);
-        this.zLevel = 0.0F;
-        itemRender.zLevel = 0.0F;
-    }
-    
 
 	private void drawItemStack(int x, int y, ItemStack itemStack) {
 		if(itemStack == null)
@@ -506,7 +603,7 @@ public class GuiPc extends GuiScreen{
 		this.zLevel = 0.0F;
 		itemRender.zLevel = 0.0F;
 		itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, 0, 0);
-		itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, 0, 0,itemStack.stackSize + "");
+		itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, 0, 0,itemStack.stackSize > 1 ? itemStack.stackSize + "" : "");
 		
 		itemRender.zLevel = 0.0F;
 		GL11.glPopMatrix();
@@ -525,7 +622,6 @@ public class GuiPc extends GuiScreen{
 	        long l = Minecraft.getSystemTime();
 	        this.field_146993_M = this.field_146998_K == slot && l - this.field_146997_J < 250L && this.field_146992_L == p_73864_3_;
 	        this.field_146995_H = false;
-
 	        if (p_73864_3_ == 0 || p_73864_3_ == 1 || flag)
 	        {
 	            int i1 = this.guiLeft;
@@ -586,7 +682,6 @@ public class GuiPc extends GuiScreen{
 	                            {
 	                                b0 = 4;
 	                            }
-
 	                            this.handleMouseClick(slot, k1, p_73864_3_, b0);
 	                        }
 
@@ -610,7 +705,6 @@ public class GuiPc extends GuiScreen{
 	                }
 	            }
 	        }
-
 	        this.field_146998_K = slot;
 	        this.field_146997_J = l;
 	        this.field_146992_L = p_73864_3_;
@@ -623,45 +717,12 @@ public class GuiPc extends GuiScreen{
 	    {
 	        Slot slot = this.getSlotAtPosition(p_146273_1_, p_146273_2_);
 	        ItemStack itemstack = this.mc.thePlayer.inventory.getItemStack();
-
-	        if (this.clickedSlot != null && this.mc.gameSettings.touchscreen)
+	        if (this.field_147007_t && slot != null && itemstack != null && itemstack.stackSize > this.field_147008_s.size() && Container.func_94527_a(slot, itemstack, true) && slot.isItemValid(itemstack) && this.inventorySlots.canDragIntoSlot(slot))
 	        {
-	            if (p_146273_3_ == 0 || p_146273_3_ == 1)
-	            {
-	                if (this.draggedStack == null)
-	                {
-	                    if (slot != this.clickedSlot)
-	                    {
-	                        this.draggedStack = this.clickedSlot.getStack().copy();
-	                    }
-	                }
-	                else if (this.draggedStack.stackSize > 1 && slot != null && Container.func_94527_a(slot, this.draggedStack, false))
-	                {
-	                    long i1 = Minecraft.getSystemTime();
-
-	                    if (this.field_146985_D == slot)
-	                    {
-	                        if (i1 - this.field_146986_E > 500L)
-	                        {
-	                            this.handleMouseClick(this.clickedSlot, this.clickedSlot.slotNumber, 0, 0);
-	                            this.handleMouseClick(slot, slot.slotNumber, 1, 0);
-	                            this.handleMouseClick(this.clickedSlot, this.clickedSlot.slotNumber, 0, 0);
-	                            this.field_146986_E = i1 + 750L;
-	                            --this.draggedStack.stackSize;
-	                        }
-	                    }
-	                    else
-	                    {
-	                        this.field_146985_D = slot;
-	                        this.field_146986_E = i1;
-	                    }
-	                }
-	            }
-	        }
-	        else if (this.field_147007_t && slot != null && itemstack != null && itemstack.stackSize > this.field_147008_s.size() && Container.func_94527_a(slot, itemstack, true) && slot.isItemValid(itemstack) && this.inventorySlots.canDragIntoSlot(slot))
-	        {
-	            this.field_147008_s.add(slot);
-	            this.func_146980_g();
+	        	if(slot.getClass().getSimpleName().equals("Slot")) {
+	                this.field_147008_s.add(slot);
+		            this.func_146980_g();
+	        	}
 	        }
 	        
 	    }
@@ -683,7 +744,6 @@ public class GuiPc extends GuiScreen{
 	                itemstack1 = itemstack.copy();
 	                i = slot.getStack() == null ? 0 : slot.getStack().stackSize;
 	                Container.func_94525_a(this.field_147008_s, this.field_146987_F, itemstack1, i);
-
 	                if (itemstack1.stackSize > itemstack1.getMaxStackSize())
 	                {
 	                    itemstack1.stackSize = itemstack1.getMaxStackSize();
@@ -719,7 +779,6 @@ public class GuiPc extends GuiScreen{
 	        {
 	            j1 = -999;
 	        }
-
 	        Slot slot1;
 	        Iterator iterator;
 	        if (this.field_146993_M && slot != null && p_146286_3_ == 0 && this.inventorySlots.func_94530_a((ItemStack)null, slot))
@@ -729,7 +788,6 @@ public class GuiPc extends GuiScreen{
 	                if (slot != null && slot.inventory != null && this.field_146994_N != null)
 	                {
 	                    iterator = this.inventorySlots.inventorySlots.iterator();
-
 	                    while (iterator.hasNext())
 	                    {
 	                        slot1 = (Slot)iterator.next();
@@ -763,57 +821,12 @@ public class GuiPc extends GuiScreen{
 	                this.field_146995_H = false;
 	                return;
 	            }
-
 	            boolean flag1;
 
-	            if (this.clickedSlot != null && this.mc.gameSettings.touchscreen)
-	            {
-	                if (p_146286_3_ == 0 || p_146286_3_ == 1)
-	                {
-	                    if (this.draggedStack == null && slot != this.clickedSlot)
-	                    {
-	                        this.draggedStack = this.clickedSlot.getStack();
-	                    }
-
-	                    flag1 = Container.func_94527_a(slot, this.draggedStack, false);
-
-	                    if (j1 != -1 && this.draggedStack != null && flag1)
-	                    {
-	                        this.handleMouseClick(this.clickedSlot, this.clickedSlot.slotNumber, p_146286_3_, 0);
-	                        this.handleMouseClick(slot, j1, 0, 0);
-
-	                        if (this.mc.thePlayer.inventory.getItemStack() != null)
-	                        {
-	                            this.handleMouseClick(this.clickedSlot, this.clickedSlot.slotNumber, p_146286_3_, 0);
-	                            this.field_147011_y = p_146286_1_ - l;
-	                            this.field_147010_z = p_146286_2_ - i1;
-	                            this.returningStackDestSlot = this.clickedSlot;
-	                            this.returningStack = this.draggedStack;
-	                            this.returningStackTime = Minecraft.getSystemTime();
-	                        }
-	                        else
-	                        {
-	                            this.returningStack = null;
-	                        }
-	                    }
-	                    else if (this.draggedStack != null)
-	                    {
-	                        this.field_147011_y = p_146286_1_ - l;
-	                        this.field_147010_z = p_146286_2_ - i1;
-	                        this.returningStackDestSlot = this.clickedSlot;
-	                        this.returningStack = this.draggedStack;
-	                        this.returningStackTime = Minecraft.getSystemTime();
-	                    }
-
-	                    this.draggedStack = null;
-	                    this.clickedSlot = null;
-	                }
-	            }
-	            else if (this.field_147007_t && !this.field_147008_s.isEmpty())
+	            if (this.field_147007_t && !this.field_147008_s.isEmpty())
 	            {
 	                this.handleMouseClick((Slot)null, -999, Container.func_94534_d(0, this.field_146987_F), 5);
 	                iterator = this.field_147008_s.iterator();
-
 	                while (iterator.hasNext())
 	                {
 	                    slot1 = (Slot)iterator.next();
@@ -836,8 +849,23 @@ public class GuiPc extends GuiScreen{
 	                    {
 	                        this.field_146994_N = slot != null && slot.getHasStack() ? slot.getStack() : null;
 	                    }
-
-	                    this.handleMouseClick(slot, j1, p_146286_3_, flag1 ? 1 : 0);
+	                    try {
+		                	if(invPlayer.getItemStack() != null && slot != null) {
+		                		ItemStack item = invPlayer.getItemStack();
+		                		if(item != null) {
+		                			if(slot.isItemValid(item)) {
+			                			this.handleMouseClick(slot, j1, p_146286_3_, flag1 ? 1 : 0);
+			                		}else {
+			                			Minecraft.getMinecraft().thePlayer.addChatMessage((IChatComponent)new ChatComponentText((Object)EnumChatFormatting.RED + "Невозможно установить"));
+			                		}
+		                		}
+		                	}else if (slot == null) {
+		                		 this.handleMouseClick(slot, j1, p_146286_3_, flag1 ? 1 : 0);
+		                	}
+						} catch (Exception e) {
+							System.out.println(e);
+						}
+	  
 	                }
 	            }
 	        }
@@ -873,7 +901,6 @@ public class GuiPc extends GuiScreen{
 	        {
 	            p_146984_2_ = p_146984_1_.slotNumber;
 	        }
-
 	        this.mc.playerController.windowClick(this.inventorySlots.windowId, p_146984_2_, p_146984_3_, p_146984_4_, this.mc.thePlayer);
 	    }
 
@@ -980,7 +1007,7 @@ public class GuiPc extends GuiScreen{
 	            }
 
 	            GL11.glEnable(GL11.GL_DEPTH_TEST);
-	            drawItemStack(getRightElementPosX(i * 3.85f) + getRightElementPosX(475), getRightElementPosY(j * 3.95f) + getRightElementPosY(79), itemstack);
+	            drawItemStack(getRightElementPosX(i * 3.84f) + getRightElementPosX(474), getRightElementPosY(j * 3.95f) + getRightElementPosY(78), itemstack);
 	     }
 
 	        itemRender.zLevel = 0.0F;

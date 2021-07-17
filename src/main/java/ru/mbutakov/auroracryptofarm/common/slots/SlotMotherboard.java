@@ -56,6 +56,6 @@ public class SlotMotherboard extends Slot {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return stack == null || stack.getItem() instanceof MotherboardItem;
+		return true;
 	}
 }

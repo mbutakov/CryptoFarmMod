@@ -24,13 +24,13 @@ public class ContainerBlockPc extends Container  {
     public ContainerBlockPc( InventoryPlayer inventoryplayer, TileBlockPc tile) {
         this.tile = tile;
         block = (BlockPc) tile.getWorldObj().getBlock(tile.xCoord, tile.yCoord, tile.zCoord);
-        addSlotToContainer(new SlotCpu(tile, slotID++, 6, 41, this));
+        addSlotToContainer(new SlotCpu(tile, slotID++, 7, 41, this));
         addSlotToContainer(new SlotCard(tile, slotID++, 151, 41, this,1));
         addSlotToContainer(new SlotMotherboard(tile, slotID++, 79, 86, this));
         addSlotToContainer(new SlotCard(tile, slotID++, 151, 63, this,2));
         addSlotToContainer(new SlotCard(tile, slotID++, 151, 86, this,3));
-        addSlotToContainer(new SlotFan(tile, slotID++, 6, 63, this));
-        addSlotToContainer(new SlotUsbFlash(tile, slotID++, 6, 86, this));
+        addSlotToContainer(new SlotFan(tile, slotID++, 7, 63, this));
+        addSlotToContainer(new SlotUsbFlash(tile, slotID++, 7, 86, this));
         //Инвентарь
         for (int i = 0; i < 3; i++)
         {

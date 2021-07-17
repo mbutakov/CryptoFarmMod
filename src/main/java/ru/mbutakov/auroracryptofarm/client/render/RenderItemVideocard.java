@@ -47,8 +47,8 @@ public class RenderItemVideocard implements IItemRenderer {
 			GL11.glScalef(0.7f, 0.7f, 0.7f);
 		}
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture(mbResourceLocation.gt710tex);
-		mbResourceLocation.gt710.renderAll();
+//		Minecraft.getMinecraft().renderEngine.bindTexture(mbResourceLocation.gt710tex);
+//		mbResourceLocation.gt710.renderAll();
 		GL11.glPopMatrix();
 	}
 }

@@ -10,9 +10,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import ru.mbutakov.auroracryptofarm.common.items.CpuItem;
+import ru.mbutakov.auroracryptofarm.common.items.FanItem;
 import ru.mbutakov.auroracryptofarm.common.items.GpuItem;
 import ru.mbutakov.auroracryptofarm.common.items.MotherboardItem;
 import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
+import ru.mbutakov.auroracryptofarm.utils.EnumFormatMotherboard;
+import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
 
 public class TileBlockPc extends TileEntity implements IInventory {
 
@@ -39,20 +42,61 @@ public class TileBlockPc extends TileEntity implements IInventory {
     				ItemStack stackVidiocard3 = getStackInSlot(4);
     				ItemStack stackMotherboard = getStackInSlot(2);
     				ItemStack stackUsbflash = getStackInSlot(6);
+    				int countVideocard = 0;
+    				if(stackMotherboard != null && stackMotherboard.getItem() != null) {
+    					if(stackMotherboard.getItem() instanceof MotherboardItem) {
+    						countVideocard = ((MotherboardItem)stackMotherboard.getItem()).getCountVideocard();
+    					}
+    				}
+    				if(stackVidiocard3 != null && stackMotherboard != null) {
+    					if(countVideocard < 2) {
+    						setInventorySlotContents(4, null);
+    					}
+    				}
+    				if(stackVidiocard2 != null && stackMotherboard != null) {
+    					if(countVideocard <= 2) {
+    						setInventorySlotContents(3, null);
+    					}
+    				}
+        			if(stackCpu != null) {
+        				if(stackCpu.getItem() != null) {
+        					if(stackCpu.getItem() instanceof CpuItem ) {
+                			}else {
+                				setInventorySlotContents(0, null);
+                			}
+        				}
+        			}
+        			ItemStack stackFan2 = getStackInSlot(5);
+        			if(stackFan2 != null) {
+        				if(stackFan2.getItem() != null) {
+        					if(stackFan2.getItem() instanceof FanItem ) {
+                			}else {
+                				setInventorySlotContents(5, null);
+                			}
+        				}
+        			}
+        			ItemStack stackFlash2 = getStackInSlot(6);
+        			if(stackFlash2 != null) {
+        				if(stackFlash2.getItem() != null) {
+        					if(stackFlash2.getItem() instanceof UsbflashItem ) {
+                			}else {
+                				setInventorySlotContents(6, null);
+                			}
+        				}
+        			}
+    				
     				if(stackCpu != null && ( stackVidiocard != null || stackVidiocard2 != null || stackVidiocard3 != null) && stackMotherboard != null && stackUsbflash != null) {
     					if(stackCpu.getItem() instanceof CpuItem) {
     					}else {
     						for(int i = 0; i < 3; i++) {
     							worldObj.spawnParticle("flame", xCoord + worldObj.rand.nextDouble(), yCoord + worldObj.rand.nextDouble(), zCoord + worldObj.rand.nextDouble(), 0, 0.1, 0);
     						}
-    						return;
     					}
       					if(stackMotherboard.getItem() instanceof MotherboardItem) {
     					}else {
     						for(int i = 0; i < 3; i++) {
     							worldObj.spawnParticle("flame", xCoord + worldObj.rand.nextDouble(), yCoord + worldObj.rand.nextDouble(), zCoord + worldObj.rand.nextDouble(), 0, 0.1, 0);
     						}
-    						return;
     					}
     					CpuItem cpu = (CpuItem) stackCpu.getItem();
     					double cpuX = cpu.getCofProcess(stackCpu);

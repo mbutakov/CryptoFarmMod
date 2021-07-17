@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import ru.mbutakov.auroracryptofarm.client.mbResourceLocation;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.BlockPc;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
+import ru.mbutakov.auroracryptofarm.common.items.FanItem;
 import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
 
 public class RenderTileEntityBlockPc extends TileEntitySpecialRenderer
@@ -37,54 +38,60 @@ public class RenderTileEntityBlockPc extends TileEntitySpecialRenderer
                 rotation = 270;
             }
         }
-        if(bp.getTier() == EnumPcTier.MIDDLE) {
+        if(bp.getTier() == EnumPcTier.LOW) {
 	        GL11.glPushMatrix();
-	        RenderHelper.disableStandardItemLighting();
 	        GL11.glTranslatef((float)x + 0.5f, (float)y + 0f, (float)z + 0.5f);
 	        GL11.glColor4f(1f,1f,1.0f,1f);
 	        GL11.glRotatef(90 - rotation, 0.0f, 1.0f, 0.0f);
-	        GL11.glRotatef(180, 1.0f, 0.0f, 0.0f);
-	        GL11.glScalef(0.1f, -0.1f, -0.1f);
-	        this.bindTexture(mbResourceLocation.blockPcTex);
-	        mbResourceLocation.blockPc.renderAll();
-	        GL11.glPopMatrix();
-	        if(tile.getStackInSlot(6) != null) {
-	        	 GL11.glPushMatrix();
-	            RenderHelper.disableStandardItemLighting();
-	            this.bindTexture(mbResourceLocation.usbflash_tex);
-	            GL11.glTranslatef((float)x + 0.46f, (float)y + 0.95f, (float)z + 0.64f);
-	            GL11.glRotatef(180 - rotation, 0.0f, 1.0f, 0.0f);
-	            GL11.glScalef(0.025f, 0.025f, 0.025f);
-	            GL11.glRotatef(90, 0.0f, 0.0f, 1.0f);
-	            GL11.glRotatef(90, 1.0f, 0.0f, 0.0f);
-	            mbResourceLocation.usbflash.renderAll();
-	            GL11.glPopMatrix();
-	        }
-        }else if (bp.getTier() == EnumPcTier.LOW) {
-        	GL11.glPushMatrix();
-        	GL11.glDisable(GL11.GL_CULL_FACE);
- 	        RenderHelper.disableStandardItemLighting();
- 	        GL11.glTranslatef((float)x + 0.5f, (float)y + 0.01f, (float)z + 0.5f);
- 	        GL11.glColor4f(1f,1f,1.0f,1f);
- 	        GL11.glRotatef(90 - rotation, 0.0f, 1.0f, 0.0f);
- 	        GL11.glRotatef(180, 1.0f, 0.0f, 0.0f);
- 	        GL11.glScalef(0.07f, -0.07f, -0.07f);
- 	        this.bindTexture(mbResourceLocation.blockPcTexLow);
- 	        mbResourceLocation.blockPc.renderAll();
- 	        GL11.glPopMatrix();
-        } else if(bp.getTier() == EnumPcTier.TOP) {
-	        GL11.glPushMatrix();
-	        RenderHelper.disableStandardItemLighting();
-	        GL11.glTranslatef((float)x + 0.5f, (float)y + 0f, (float)z + 0.5f);
-	        GL11.glColor4f(1f,1f,1.0f,1f);
-	        GL11.glRotatef(90 - rotation, 0.0f, 1.0f, 0.0f);
-	        GL11.glRotatef(180, 1.0f, 0.0f, 0.0f);
-	        GL11.glScalef(0.12f, -0.12f, -0.12f);
-	        this.bindTexture(mbResourceLocation.blockPcTexTop);
-	        mbResourceLocation.blockPc.renderAll();
+	        GL11.glScalef(2f, 2f, 2f);
+	        this.bindTexture(mbResourceLocation.blockPcLowTex);
+	        mbResourceLocation.blockPcLow.renderAll();
 	        GL11.glPopMatrix();
         }
-        
+        if(bp.getTier() == EnumPcTier.MIDDLE) {
+	        GL11.glPushMatrix();
+	        GL11.glTranslatef((float)x + 0.5f, (float)y + 0f, (float)z + 0.5f);
+	        GL11.glColor4f(1f,1f,1.0f,1f);
+	        GL11.glRotatef(90 - rotation, 0.0f, 1.0f, 0.0f);
+	        GL11.glScalef(1.4f, 1.4f, 1.4f);
+	        this.bindTexture(mbResourceLocation.blockPcMiddleTex);
+	        mbResourceLocation.blockPcMiddle.renderAll();
+	        GL11.glPopMatrix();
+	        if(tile.getStackInSlot(5) != null && tile.getStackInSlot(5).getItem() instanceof FanItem) {
+		        GL11.glPushMatrix();
+		        this.bindTexture(mbResourceLocation.blockPcLowTex);
+		        float xx = 0.45f;
+		        float zz = 0.144f;
+		        if(rotation == 90) {
+		        	 GL11.glTranslatef((float)x + xx, (float)y + 0.715f, (float)z + zz);
+		        }
+		        if(rotation == 180) {
+		        	 GL11.glTranslatef((float)x + xx*2 - 0.05f, (float)y + 0.715f, (float)z + 0.45f);
+		        }
+		        if(rotation == 270) {
+		        	 GL11.glTranslatef((float)x + 0.55F, (float)y + 0.715f, (float)z + 0.857f);
+		        }
+		        if(rotation == 0) {
+		        	 GL11.glTranslatef((float)x + 0.145f, (float)y + 0.715f, (float)z + 0.54f);
+		        }
+		        GL11.glRotatef(0 - rotation, 0.0f, 1.0f, 0.0f);
+		        GL11.glScalef(0.04f, 0.04f, 0.04f);
+		        GL11.glRotatef(90 + (Minecraft.getMinecraft().thePlayer.ticksExisted*11), 1, 0, 0);
+		        mbResourceLocation.blockPcHighFan.renderPart("ventilputor_Cylinder_Cylinder.001");
+		        GL11.glPopMatrix();
+	        }
+        }
+        if(bp.getTier() == EnumPcTier.TOP) {
+	        GL11.glPushMatrix();
+	        GL11.glTranslatef((float)x + 0.5f, (float)y + 0.35f, (float)z + 0.5f);
+	        GL11.glColor4f(1f,1f,1.0f,1f);
+	        GL11.glRotatef(180 - rotation, 0.0f, 1.0f, 0.0f);
+	        GL11.glScalef(0.96f, 0.7f, 0.96f);
+	        this.bindTexture(mbResourceLocation.blockPcHighTex);
+	        mbResourceLocation.blockPcHigh.renderAll();
+	        GL11.glPopMatrix();
+	        
+        }
     }
     
     public void renderTileEntityAt(final TileEntity tile, final double x, final double y, final double z, final float f) {

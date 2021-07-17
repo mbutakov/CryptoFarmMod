@@ -89,9 +89,31 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 		int angel = var1.getBlockMetadata(int2, int3, int4);
 		float x = 0.31f;
 		if (angel != 2 && angel != 0) {
-			this.setBlockBounds(0F + x, 0.0F, 0.0F, 1F - x, 1.0F, 1F);
+			if(tier == EnumPcTier.TOP) {
+				x = 0f;
+				this.setBlockBounds(0F + x, 0.0F, 0.0F + x, 1F - x, 1F, 1F - x);
+			}
+			if(tier == EnumPcTier.LOW) {
+				x = 0.34f;
+				this.setBlockBounds(0F + x, 0.0F, 0.14F, 1F-x, 0.78F, 0.9F);
+			}
+			if(tier == EnumPcTier.MIDDLE) {
+				 x = 0.31f;
+				this.setBlockBounds(0F + x, 0.0F, 0.14F, 1F-x, 1F, 0.9F);
+			}
 		}else {
-			this.setBlockBounds(0F, 0.0F, 0.0F + x, 1F, 1.0F, 1F - x);
+			if(tier == EnumPcTier.TOP) {
+				x = 0f;
+				this.setBlockBounds(0F + x, 0.0F, 0.0F + x, 1F - x, 1F, 1F - x);
+			}
+			if(tier == EnumPcTier.LOW) {
+				x = 0.34f;
+				this.setBlockBounds(0.1F, 0.0F, 0.0F + x, 0.87F, 0.78F, 1F - x);
+			}
+			if(tier == EnumPcTier.MIDDLE) {
+				 x = 0.25f;
+				this.setBlockBounds(0.116F, 0.0F, 0.1F + x, 0.96F, 1F, 0.9F - x);
+			}
 		}
 		
 	}

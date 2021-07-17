@@ -31,7 +31,7 @@ public class ClientEvents {
 
 	private static long start;
 
-	private static int fadeTime = 200;
+	private static int fadeTime = 600;
 
 	public static int radius = 12;
 

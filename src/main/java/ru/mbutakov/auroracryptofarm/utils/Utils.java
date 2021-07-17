@@ -9,7 +9,7 @@ public class Utils {
 	  public static String formatNumber(double number) {
 		    String formattednumber = "0";
 		    if (Double.valueOf(number) % 1 != 0) {
-		      formattednumber = String.format("%.2f", new Object[] { Double.valueOf(number) });
+		      formattednumber = String.format("%.3f", new Object[] { Double.valueOf(number) });
 		    }else {
 		    	 formattednumber = String.format("%.0f", new Object[] { Double.valueOf(number) });
 		    }

@@ -18,8 +18,6 @@ public class RenderTileEntityBlockBank extends TileEntitySpecialRenderer
 { 
     
     private void render(final TileBlockBank tile, final double x, final double y, final double z, final float f) {
-    	Block blockPc = tile.getBlockType();
-    	BlockBank bb = (BlockBank) blockPc;
     	int i = 0;
         int rotation = 0;
         switch (tile.getBlockMetadata() % 4) {
@@ -40,7 +38,6 @@ public class RenderTileEntityBlockBank extends TileEntitySpecialRenderer
             }
         }
 	        GL11.glPushMatrix();
-	        RenderHelper.disableStandardItemLighting();
 	        GL11.glTranslatef((float)x + 0.5f, (float)y + 0f, (float)z + 0.5f);
 	        GL11.glColor4f(1f,1f,1.0f,1f);
 	        GL11.glRotatef(90 - rotation, 0.0f, 1.0f, 0.0f);

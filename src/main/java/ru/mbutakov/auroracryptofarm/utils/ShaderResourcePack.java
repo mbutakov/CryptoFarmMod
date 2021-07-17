@@ -37,7 +37,7 @@ import ru.mbutakov.auroracryptofarm.client.ClientEvents;
 /*    */             Scanner scan = new Scanner(in);
 /*    */             try {
 /*    */               while (scan.hasNextLine())
-/*    */                 data.append(scan.nextLine().replaceAll("@radius@", Integer.toString(25))).append('\n'); 
+/*    */                 data.append(scan.nextLine().replaceAll("@radius@", Integer.toString(20))).append('\n'); 
 /*    */             } finally {
 /*    */               scan.close();
 /*    */             } 

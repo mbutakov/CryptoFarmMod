@@ -2,7 +2,6 @@ package ru.mbutakov.auroracryptofarm.common;
 
 import lombok.Getter;
 import lombok.Setter;
-import ml.luxinfine.economy.api.EconomyApi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.InventoryBasic;
@@ -28,7 +27,7 @@ public class InentoryBank extends InventoryBasic {
 				float addMoney = stackFlash.getTagCompound().getFloat("coin");
 				stackFlash.setTagCompound(null);
 				if(player instanceof EntityPlayerMP) {
-					EconomyApi.addBalance(player.getPersistentID(), addMoney);
+				//	EconomyApi.addBalance(player.getPersistentID(), addMoney);
 				}
 					if(transTVOYAMAMA) {
 						transTVOYAMAMA = !transTVOYAMAMA;

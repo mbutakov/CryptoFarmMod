@@ -10,6 +10,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.Getter;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -25,11 +26,11 @@ import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
 @Getter
 public class Main {
 
-	public static final CreativeTabs cryptoTab = new CreativeTabs("Crypto Tab") {
+	public static final CreativeTabs cryptoTab = new CreativeTabs("AuroraCryptTab") {
 		@Override
 		public Item getTabIconItem() {
 			// TODO Auto-generated method stub
-			return Items.apple;
+			return Item.getItemFromBlock(BlocksRegister.BlockPcTop);
 		}
 	};
 	@SidedProxy(clientSide = "ru.mbutakov.auroracryptofarm.client.ClientProxy", serverSide = "ru.mbutakov.auroracryptofarm.common.CommonProxy")

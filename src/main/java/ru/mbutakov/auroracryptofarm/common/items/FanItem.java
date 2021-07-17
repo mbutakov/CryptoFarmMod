@@ -26,6 +26,7 @@ public class FanItem extends Item{
 		setMaxDamage(maxDamage);
 		GameRegistry.registerItem(this,name);
 		Main.proxy.registerName(this, name);
+		setNoRepair();
 	}
 	
     @SideOnly(Side.CLIENT)

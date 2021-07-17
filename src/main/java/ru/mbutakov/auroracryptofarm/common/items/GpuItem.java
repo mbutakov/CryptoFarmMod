@@ -31,6 +31,7 @@ public class GpuItem extends Item {
 		this.coinAdd = coinAdd;
 		this.setMaxDamage(maxDamage);
 		Main.proxy.registerName(this, name);
+		setNoRepair();
 	}
 
 

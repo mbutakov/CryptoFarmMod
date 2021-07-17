@@ -91,7 +91,7 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 		if (angel != 2 && angel != 0) {
 			if(tier == EnumPcTier.TOP) {
 				x = 0f;
-				this.setBlockBounds(0F + x, 0.0F, 0.0F + x, 1F - x, 1F, 1F - x);
+				this.setBlockBounds(0F + x, 0.0F, 0.0F + x, 1F - x, 1.5F, 1F - x);
 			}
 			if(tier == EnumPcTier.LOW) {
 				x = 0.34f;
@@ -104,7 +104,7 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
 		}else {
 			if(tier == EnumPcTier.TOP) {
 				x = 0f;
-				this.setBlockBounds(0F + x, 0.0F, 0.0F + x, 1F - x, 1F, 1F - x);
+				this.setBlockBounds(0F + x, 0.0F, 0.0F + x, 1F - x, 1.5F, 1F - x);
 			}
 			if(tier == EnumPcTier.LOW) {
 				x = 0.34f;
@@ -143,7 +143,6 @@ public class BlockPc extends BlockContainer implements ITileEntityProvider {
         if (l == 3) {
             par1World.setBlockMetadataWithNotify(x, y, z, 2, 2);
         }
-
     }
 	
 	@Override

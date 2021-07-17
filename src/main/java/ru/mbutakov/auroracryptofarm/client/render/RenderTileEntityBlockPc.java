@@ -83,10 +83,10 @@ public class RenderTileEntityBlockPc extends TileEntitySpecialRenderer
         }
         if(bp.getTier() == EnumPcTier.TOP) {
 	        GL11.glPushMatrix();
-	        GL11.glTranslatef((float)x + 0.5f, (float)y + 0.35f, (float)z + 0.5f);
+	        GL11.glTranslatef((float)x + 0.5f, (float)y + 0.5f, (float)z + 0.5f);
 	        GL11.glColor4f(1f,1f,1.0f,1f);
 	        GL11.glRotatef(180 - rotation, 0.0f, 1.0f, 0.0f);
-	        GL11.glScalef(0.96f, 0.7f, 0.96f);
+	        GL11.glScalef(1f, 1f, 1f);
 	        this.bindTexture(mbResourceLocation.blockPcHighTex);
 	        mbResourceLocation.blockPcHigh.renderAll();
 	        GL11.glPopMatrix();

@@ -34,6 +34,7 @@ public class CpuItem extends Item {
 		GameRegistry.registerItem(this,name);
 		this.processorX = processorX;
 		Main.proxy.registerName(this, name);
+		setNoRepair();
 	}
 	
     @SideOnly(Side.CLIENT)

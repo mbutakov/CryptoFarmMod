@@ -44,7 +44,7 @@ public class RenderItemBlockPc implements IItemRenderer {
 			}
 			if (type == ItemRenderType.INVENTORY) {
 				if (tier == EnumPcTier.TOP) {
-					GL11.glTranslatef(3f, 2.3f, 3f);
+					GL11.glTranslatef(3f, 2.15f, 3f);
 				}else if(tier == EnumPcTier.MIDDLE) {
 					GL11.glTranslatef(3f, 2.15f, 3f);
 				}else {
@@ -52,11 +52,16 @@ public class RenderItemBlockPc implements IItemRenderer {
 				}
 			}
 			if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
-				GL11.glTranslatef(0.3f, 0.3f, 0.3f);
+				if (tier == EnumPcTier.TOP) {
+					GL11.glTranslatef(0f, 1f, 0f);
+				}else if(tier == EnumPcTier.MIDDLE) {
+					GL11.glTranslatef(0f, 0.3f, 0f);
+				}else {
+					GL11.glTranslatef(-0.2f, 0.3f, 0f);
+				}
 			}
 			if (type == ItemRenderType.EQUIPPED) {
 				GL11.glScalef(2f, 2f, 2f);
-				GL11.glTranslatef(1.5f, 0.7f, 2f);
 				GL11.glRotatef(230, 0, 1, 0);
 			}
 			if (tier == EnumPcTier.TOP) {

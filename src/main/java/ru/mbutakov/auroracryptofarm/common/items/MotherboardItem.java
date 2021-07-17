@@ -35,6 +35,7 @@ public class MotherboardItem extends Item {
 		this.format = format;
 		GameRegistry.registerItem(this,name);
 		Main.proxy.registerName(this, name);
+		setNoRepair();
 	}
 	
     @SideOnly(Side.CLIENT)

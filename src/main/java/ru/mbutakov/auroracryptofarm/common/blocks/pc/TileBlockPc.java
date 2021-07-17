@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -17,7 +18,7 @@ import ru.mbutakov.auroracryptofarm.common.items.UsbflashItem;
 import ru.mbutakov.auroracryptofarm.utils.EnumFormatMotherboard;
 import ru.mbutakov.auroracryptofarm.utils.EnumPcTier;
 
-public class TileBlockPc extends TileEntity implements IInventory {
+public class TileBlockPc extends TileEntity implements IInventory,ISidedInventory {
 
     private ItemStack[] items = new ItemStack[7];
     public boolean loaded;
@@ -46,6 +47,8 @@ public class TileBlockPc extends TileEntity implements IInventory {
     				if(stackMotherboard != null && stackMotherboard.getItem() != null) {
     					if(stackMotherboard.getItem() instanceof MotherboardItem) {
     						countVideocard = ((MotherboardItem)stackMotherboard.getItem()).getCountVideocard();
+    					}else {
+    						return;
     					}
     				}
     				if(stackVidiocard3 != null && stackMotherboard != null) {
@@ -298,11 +301,21 @@ public class TileBlockPc extends TileEntity implements IInventory {
     {
         return true;
     }
-	
+    public boolean canInsertItem(final int slot, final ItemStack item, final int side) {
+        return false;
+    }
     
+    public boolean canExtractItem(final int slot, final ItemStack item, final int side) {
+        return false;
+    }
     public Container getGuiContainer(InventoryPlayer inventory) {
         return (Container)new ContainerBlockPc(inventory, this);
       }
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[0];
+	}
 
     
 }

@@ -15,7 +15,9 @@ import org.lwjgl.opengl.GL12;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -34,7 +36,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.mbutakov.auroracryptofarm.Main;
+import ru.mbutakov.auroracryptofarm.client.ClientEvents;
 import ru.mbutakov.auroracryptofarm.client.ClientProxy;
+import ru.mbutakov.auroracryptofarm.client.config.CryptConfig;
 import ru.mbutakov.auroracryptofarm.common.ItemsRegister;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.ContainerBlockPc;
 import ru.mbutakov.auroracryptofarm.common.blocks.pc.TileBlockPc;
@@ -47,6 +51,7 @@ import ru.mbutakov.auroracryptofarm.common.slots.SlotMotherboard;
 import ru.mbutakov.auroracryptofarm.common.slots.SlotUsbFlash;
 import ru.mbutakov.auroracryptofarm.utils.DrawHelper;
 import ru.mbutakov.auroracryptofarm.utils.FontUtils;
+import ru.mbutakov.auroracryptofarm.utils.ScaleGui;
 import ru.mbutakov.auroracryptofarm.utils.FontUtils.FontContainer;
 import ru.mbutakov.auroracryptofarm.utils.Utils;
 
@@ -104,6 +109,7 @@ public class GuiPc extends GuiScreen{
     private int field_146992_L;
     private boolean field_146993_M;
     private ItemStack field_146994_N;
+    ScaleGui sg;
     
     public GuiPc(InventoryPlayer inventoryplayer, TileBlockPc tile) {
         this.inventorySlots = (Container)new ContainerBlockPc(inventoryplayer, tile);
@@ -127,6 +133,9 @@ public class GuiPc extends GuiScreen{
      ySize = getRightElementPosY(640);
      guiLeft = getRightElementPosX(470);
      guiTop = getRightElementPosY(200);
+      sg = new ScaleGui();
+  	buttonList.add(new GuiCustomButton(0, this.width  - 60,0, 60, 20,  ClientEvents.isBlock? "Размытие выкл" : "Размытие вкл" + "", !ClientEvents.isBlock ? "0x34324" : "0xd11717",200));
+      
     }
     
     @Override
@@ -134,7 +143,11 @@ public class GuiPc extends GuiScreen{
     {
 	    GL11.glPushMatrix();
 	    GL11.glEnable(GL11.GL_BLEND);
-	    GL11.glColor4f(1f, 1f, 1f, 0.8f);
+	    if(ClientEvents.isBlock) {
+	    	  GL11.glColor4f(1f, 1f, 1f, 0.95f);
+	    }else {
+	    	  GL11.glColor4f(1f, 1f, 1f, 0.85f);
+	    }
 		this.mc.getTextureManager().bindTexture(overlay);
 		DrawHelper.drawCustom((int) this.left, (int) (this.right - this.left), (int) (this.bottom - this.top),
 				(int) this.top);
@@ -155,19 +168,37 @@ public class GuiPc extends GuiScreen{
     }
     
     
-  
+	public void actionPerformed(GuiButton button) {
+		if (button.id == 0) {
+				ClientEvents.isBlock = !ClientEvents.isBlock;
+				CryptConfig.save();
+				this.mc.displayGuiScreen((GuiScreen) null);
+		}
+	}
     
 	@Override
 	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
-		drawDefaultBackground();
+        int k;
+    	drawDefaultBackground();
+        for (k = 0; k < this.buttonList.size(); ++k)
+        {
+            ((GuiButton)this.buttonList.get(k)).drawButton(this.mc, p_73863_1_, p_73863_2_);
+        }
+
+        for (k = 0; k < this.labelList.size(); ++k)
+        {
+            ((GuiLabel)this.labelList.get(k)).func_146159_a(this.mc, p_73863_1_, p_73863_2_);
+        }
+        
+        if(ClientEvents.timeOpen > 90) {
+        	   ((GuiButton)this.buttonList.get(0)).visible = false;
+        }
 		GL11.glDisable(GL11.GL_LIGHTING);
 		drawGuiContainerBackgroundLayer(p_73863_3_, p_73863_1_, p_73863_2_);
 		GL11.glEnable(GL11.GL_LIGHTING);
-
-		
 		
 		 this.theSlot = null;
-	       int k = this.guiLeft;
+	       k = this.guiLeft;
 	        int l = this.guiTop;
 		  InventoryPlayer inventoryplayer = this.mc.thePlayer.inventory;
 		  ItemStack itemstack = this.draggedStack == null ? inventoryplayer.getItemStack() : this.draggedStack;
@@ -544,7 +575,7 @@ public class GuiPc extends GuiScreen{
     
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int x, int y) {
 
-		
+		ScaledResolution sr = new ScaledResolution(mc, mc.getMinecraft().displayWidth, mc.getMinecraft().displayHeight);
 		GL11.glPushMatrix();
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -552,6 +583,7 @@ public class GuiPc extends GuiScreen{
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1, 1, 1, 1f);
+		
 	    drawSlot(getRightElementPosX(495.0D),getRightElementPosY(232.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(0));
 	    drawSlot(getRightElementPosX(495.0D),getRightElementPosY(319.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(5));
 	    drawSlot(getRightElementPosX(495.0D),getRightElementPosY(411.0D), getRightElementPosX(62), getRightElementPosY(62), 0.0D, 0.0D, 256.0D, 256.0D,inventorySlots.getSlot(6));

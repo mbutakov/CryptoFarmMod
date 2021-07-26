@@ -13,6 +13,7 @@ import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import ru.mbutakov.auroracryptofarm.client.config.CryptConfig;
 import ru.mbutakov.auroracryptofarm.client.render.RenderItemBlockPc;
 import ru.mbutakov.auroracryptofarm.client.render.RenderItemUsbflash;
 import ru.mbutakov.auroracryptofarm.client.render.RenderTileEntityBlockBank;
@@ -30,6 +31,7 @@ public class ClientProxy extends CommonProxy {
 
 	public void preInit() {
 		super.preInit();
+		CryptConfig.load();
 	    ClientRegistry.bindTileEntitySpecialRenderer((Class)TileBlockPc.class, (TileEntitySpecialRenderer)new RenderTileEntityBlockPc());
 	    ClientRegistry.bindTileEntitySpecialRenderer((Class)TileBlockBank.class, (TileEntitySpecialRenderer)new RenderTileEntityBlockBank());
 		

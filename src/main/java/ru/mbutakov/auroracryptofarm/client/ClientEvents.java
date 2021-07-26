@@ -21,6 +21,7 @@ import net.minecraft.client.util.JsonException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import ru.mbutakov.auroracryptofarm.Main;
+import ru.mbutakov.auroracryptofarm.client.config.CryptConfig;
 import ru.mbutakov.auroracryptofarm.client.gui.GuiBank;
 import ru.mbutakov.auroracryptofarm.client.gui.GuiPc;
 import ru.mbutakov.auroracryptofarm.utils.ShaderResourcePack;
@@ -31,25 +32,29 @@ public class ClientEvents {
 
 	private static long start;
 
-	private static int fadeTime = 600;
+	private static int fadeTime = 1000;
 
 	public static int radius = 12;
 
 	private static int colorFirst = 75000000;
 
 	private static int colorSecond = 75000000;
-
+	
+	public static boolean isBlock = CryptConfig.blur;
+	public static float timeOpen;
 	@Nonnull ShaderResourcePack dummyPack = new ShaderResourcePack();
 	
 
 	@SubscribeEvent
 	public void onGuiChange(GuiOpenEvent event) throws JsonException {
+		  if(!isBlock)
 			if (this._listShaders == null)
 				this._listShaders = ReflectionHelper.findField(ShaderGroup.class,
 						new String[] { "field_148031_d", "listShaders" });
 			if ((Minecraft.getMinecraft()).theWorld != null && ShaderLinkHelper.getStaticShaderLinkHelper() != null) {
 				EntityRenderer er = (Minecraft.getMinecraft()).entityRenderer;
 				if (!er.isShaderActive() && event.gui != null && (event.gui instanceof GuiPc || event.gui instanceof GuiBank)) {
+					timeOpen = 0;
 					Minecraft mc = Minecraft.getMinecraft();
 					er.theShaderGroup = new ShaderGroup(mc.getTextureManager(), mc.getResourceManager(),
 							mc.getFramebuffer(), new ResourceLocation("shaders/post/fade_in_blur.json"));
@@ -65,8 +70,18 @@ public class ClientEvents {
 		return Math.min((float) (System.currentTimeMillis() - start) / fadeTime, 1.0F);
 	}
 	  
+	@SubscribeEvent
+	 public void onClientTickInGui(TickEvent.ClientTickEvent event) {
+		  if(Minecraft.getMinecraft().currentScreen instanceof GuiPc || Minecraft.getMinecraft().currentScreen instanceof GuiBank){
+			  if(timeOpen <= 100) {
+					  timeOpen++;
+			  }
+		  }
+	}
+	
 	  @SubscribeEvent
 	  public void onRenderTick(TickEvent.RenderTickEvent event) {
+		  if(!isBlock)
 		  if(Minecraft.getMinecraft().currentScreen instanceof GuiPc || Minecraft.getMinecraft().currentScreen instanceof GuiBank){
 			    if (event.phase == TickEvent.Phase.END && (Minecraft.getMinecraft()).currentScreen != null && (Minecraft.getMinecraft()).entityRenderer.isShaderActive()) {
 				      ShaderGroup sg = (Minecraft.getMinecraft()).entityRenderer.getShaderGroup();
